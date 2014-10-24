@@ -23,6 +23,11 @@ Route::group(['before' => 'admin'], function(){
 	
 });
 
+Route::get('test',function(){
+return "test";
+
+});
+
 Route::get('/dev/createAdmin', function(){
 	$exist = User::where('type','=','admin')->first();
 	if(!$exist){

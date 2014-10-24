@@ -2,13 +2,47 @@
 
 class UserController extends BaseController{
     
-    public function showLogin(){
-        return View::make('login');
+    public function home(){
+        if(!Auth::check()){
+            return View::make('login');
+        }
+        else if(Auth::user()->type == 'admin'){
+            return "admin dashboard";
+        }
+        else{
+            $userTrip = UserTrip::where('user_id', '=', Auth::user()->id)->first();
+            if(!$userTrip){
+                return View::make('select_trip');
+            }
+            else{
+                if($userTrip->waitlisted){
+                    return "you have been waitlisted, would you like to select another trip";
+                }
+                else if($userTrip->approved){
+                    return "dashboard";
+                }
+                else{
+                    return "You are currently waiting on approval";
+                }
+            }
+        }
+    } 
+    
+    public function waitlistOrApprove(){
+        $userTrip = UserTrip::where('waitlisted', '=', false and 'approved', '=', false);
+        //display buttons taht satisfy $userTrip
+        
+        if(){ // waitlisted button is pressed
+            $userTrip->waitlisted = true;
+        }
+        else if(){// accepted button is pressd
+            $userTrip->approved = true;
+        }
     }
     
     public function login(){
         if(Auth::attempt(array('email'=>Input::get('email'),'password'=>Input::get('password')))){
-            return View::make('select_trip', compact('trips'));
+            return Redirect::to('/');
         }
         Session::flash('loginError','Invalid credentials. Please try again.');
         return Redirect::to('/')->withInput();
@@ -41,7 +75,6 @@ class UserController extends BaseController{
         $id_number = Input::get('id_number');
         $class = Input::get('class');
         $campus_box = Input::get('campus_box');
-        $accept_terms = Input::get('accept_terms');
         $isStudent = Input::get('isStudent');
         
         if(!User::isValid(Input::all())){
@@ -75,7 +108,7 @@ class UserController extends BaseController{
         
         Session::flash('registration_success',1);
     
-        return View::make('select_trip', comptact('trips'));
+        return Redirect::to('/');
     }
 }
 

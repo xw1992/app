@@ -19,7 +19,8 @@
                                         {{Session::get('loginError')}}
                                     </div>
                                     @endif
-  				 <form role="form" action="/login" method="post">
+                                    {{Form::open(array('url'=>'/login','method'=>'post'))}}
+  				 <!--<form role="form" action="/login" method="post">-->
   						<div class="form-group">
     						<label for="exampleInputEmail1" class="lead">Email</label>
                                                 {{Form::email('email','',array('class'=>'form-control', 'placeholder'=>'Enter email', 'required'=>'required'))}}

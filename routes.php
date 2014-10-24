@@ -44,15 +44,15 @@ Route::get('/dev/createAdmin', function(){
 	
 });
 
-Route::get('/', 'UserController@showLogin');
+Route::get('/', 'UserController@home');
 
 Route::get('/logout', 'UserController@logout');
 
 Route::post('/login', 'UserController@login');
 
-Route::get('/de', 'UserController@de');
-
 Route::get('/register', 'UserController@showSignup');
 
 Route::post('/signup', 'UserController@signup');
+
+Route::post('/', 'UserConotroller@waitlistOrApprove');
 

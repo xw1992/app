@@ -23,12 +23,11 @@
 	<h2>Select your trip:</h2>
 	
 	<div class="form-group col-xs-8 col-xs-offset-2">
-	
-	<select class="form-control input-lg" name = "trip">
-  		<option value="Civil Rights Movement">Civil Rights Movement</option>
-  		<option value="Women's Rights and Islam">Women's Rights and Islam</option>
-  		<option value="Land and Food">Land and Food</option>
-  		<option value="Immigration on the US-Mexican Border">Immigration on the US-Mexican Border</option>
+	{{ Form::open(array('url' => '/selectTrip', 'method' => 'post')) }}
+	<select class="form-control input-lg" name = "trip_id">
+            @foreach($trips as $trip)
+                <option value="{{ $trip->id }}">{{ $trip->name }}</option>
+            @endforeach
 	</select>
 	
 	</div>
@@ -66,6 +65,7 @@
         			<!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
         			<center><button type="submit" class="btn btn-info">Submit</button></center>
       			<!--</div>-->
+</form>
     		</div>
   		</div>
 	</div>

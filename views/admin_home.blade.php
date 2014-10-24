@@ -49,37 +49,43 @@
 
 <div class="container">
     <div class="row col-md-12">
+     @if(Session::has('adminSuccess'))
+        <div class="alert alert-success" role="alert">
+        {{Session::get('adminSuccess')}}
+        </div>
+    @endif
     <table class="table table-striped custab">
     <thead>
         <tr>
             <th>Name</th>
             <th>Desired Trip</th>
             <th>Available Space</th>
-            <th class="text-center">Action</th>
+            <th class="text-center">Approve</th>
+            <th class="text-center">Waitlist</th>
       </tr>
     </thead>
     
     
     
-
+    @foreach($userTrips as $userTrip)
             <tr>
-                <td>Student 1</td>
-                <td>Trip 1</td>
-                <td>4</td>
-                <td class="text-center"><a class='btn btn-info btn-xs' href="#"> Approve</a> <a href="#" class="btn btn-danger btn-xs"> Waitlist</a></td>
+                <td>{{ $userTrip->user->fname }}</td>
+                <td>{{$userTrip->trip->name }}</td>
+                <td>{{$userTrip->trip->capacity-$userTrip->trip->enroll_no}}</td>
+                <td class="text-center">
+                    {{Form::open(array('url' => '/approveApplicant', "method" => "post"))}}
+                    <input type="hidden" value="{{$userTrip->id}}" name="id">
+                    <button type="submit" class='btn btn-info btn-xs'> Approve</button> 
+                    </form>
+                </td>
+                <td class="text-center">
+                    {{Form::open(array('url' => '/waitlistApplicant', "method" => "post"))}}
+                    <input type="hidden" value="{{$userTrip->id}}" name="id">
+                    <button type="submit" class="btn btn-danger btn-xs"> Waitlist</button>
+                    </form>
+                </td>
             </tr>
-            <tr>
-                <td>Student 2</td>
-                <td>Trip 1</td>
-                <td>3</td>
-                <td class="text-center"><a class='btn btn-info btn-xs' href="#"> Approve</a> <a href="#" class="btn btn-danger btn-xs"> Waitlist</a></td>
-            </tr>
-            <tr>
-                <td>Student 3</td>
-                <td>Trip 5</td>
-                <td>10</td>
-                <td class="text-center"><a class='btn btn-info btn-xs' href="#"> Approve</a> <a href="#" class="btn btn-danger btn-xs">Waitlist</a></td>
-            </tr>
+            @endforeach
     </table>
     </div>
 </div>

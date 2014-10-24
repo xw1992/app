@@ -7,39 +7,30 @@ class UserController extends BaseController{
             return View::make('login');
         }
         else if(Auth::user()->type == 'admin'){
-            return "admin dashboard";
+            $userTrips = UserTrip::with('user', 'trip')->where('waitlisted', '=', 0)->where('approved', '=', 0)->get();
+            
+            return View::make('admin_home', compact('userTrips'));
         }
         else{
             $userTrip = UserTrip::where('user_id', '=', Auth::user()->id)->first();
             if(!$userTrip){
-                return View::make('select_trip');
+                $trips = Trip::where('open', '=', 1)->get();
+                return View::make('select_trip', compact('trips'));
             }
             else{
                 if($userTrip->waitlisted){
                     return "you have been waitlisted, would you like to select another trip";
                 }
                 else if($userTrip->approved){
-                    return "dashboard";
+                    return View::make('dashboard');
                 }
                 else{
-                    return "You are currently waiting on approval";
+                    return View::make('awaiting_approval', compact('userTrip'));
                 }
             }
         }
     } 
-    
-    public function waitlistOrApprove(){
-        $userTrip = UserTrip::where('waitlisted', '=', false and 'approved', '=', false);
-        //display buttons taht satisfy $userTrip
-        
-        if(){ // waitlisted button is pressed
-            $userTrip->waitlisted = true;
-        }
-        else if(){// accepted button is pressd
-            $userTrip->approved = true;
-        }
-    }
-    
+
     public function login(){
         if(Auth::attempt(array('email'=>Input::get('email'),'password'=>Input::get('password')))){
             return Redirect::to('/');

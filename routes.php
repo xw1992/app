@@ -10,6 +10,10 @@ Route::group(['before' => 'auth'], function(){
 	Route::get('/authTest',function(){
 		return "You are logged in.";
 	});
+        
+        Route::get('/logout', 'UserController@logout');
+        
+        Route::post('/selectTrip', 'TripController@selectTrip');
 
 });
 
@@ -20,7 +24,19 @@ Route::group(['before' => 'admin'], function(){
 	Route::get('/adminTest',function(){
 		return "You are an admin.";
 	});
+        
+        Route::post('/waitlistApplicant', 'AdminController@waitlist');
+
+        Route::post('/approveApplicant', 'AdminController@approve');
 	
+});
+
+Route::group(['before' => 'guest'], function(){
+   Route::post('/login', 'UserController@login');
+
+    Route::get('/register', 'UserController@showSignup');
+
+    Route::post('/signup', 'UserController@signup'); 
 });
 
 Route::get('/dev/createAdmin', function(){
@@ -46,13 +62,5 @@ Route::get('/dev/createAdmin', function(){
 
 Route::get('/', 'UserController@home');
 
-Route::get('/logout', 'UserController@logout');
 
-Route::post('/login', 'UserController@login');
-
-Route::get('/register', 'UserController@showSignup');
-
-Route::post('/signup', 'UserController@signup');
-
-Route::post('/', 'UserConotroller@waitlistOrApprove');
 

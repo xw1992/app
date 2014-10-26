@@ -18,6 +18,8 @@ class AdminController extends BaseController{
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
         $userTrip->approved = 1;
         $userTrip->save();
+        $userTrip->trip->enroll_no++;
+        $userTrip->trip->save();
         Session::flash("adminSuccess", "{$userTrip->user->fname} successfully approved for {$userTrip->trip->name}");
         return Redirect::to('/');
     }

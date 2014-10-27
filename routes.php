@@ -14,6 +14,8 @@ Route::group(['before' => 'auth'], function(){
         Route::get('/logout', 'UserController@logout');
         
         Route::post('/selectTrip', 'TripController@selectTrip');
+        
+        Route::post('/waitlistChangeTrip', 'TripController@waitlistChangeTrip');
 
 });
 
@@ -28,6 +30,10 @@ Route::group(['before' => 'admin'], function(){
         Route::post('/waitlistApplicant', 'AdminController@waitlist');
 
         Route::post('/approveApplicant', 'AdminController@approve');
+        
+        Route::post('/AssignTripLeader', 'AdminController@assignTripLeader');
+        
+        Route::post('/changeTrip', 'AdminController@changeTrip');
 	
 });
 

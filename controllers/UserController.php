@@ -49,49 +49,30 @@ class UserController extends BaseController{
     }
     
     public function signup(){
-        $email = Input::get('email');
-        $pass = Hash::make(Input::get('password'));
-        $first_name = Input::get('first_name');
-        $middle_name = Input::get('middle_name');
-        $last_name = Input::get('last_name');
-        $dob = Input::get('dob');
-        $gender = Input::get('gender');
-        $cell = Input::get('cell');
-        $campus_address = Input::get('campus_address');
-        $passport = Input::get('passport');
-        $passport_country = Input::get('passport_country');
-        $emergency_name = Input::get('emergency_name');
-        $emergency_street = Input::get('emergency_street');
-        $emergency_phone = Input::get('emergency_phone');
-        $id_number = Input::get('id_number');
-        $class = Input::get('class');
-        $campus_box = Input::get('campus_box');
-        $isStudent = Input::get('isStudent');
-        
         if(!User::isValid(Input::all())){
             
             return Redirect::to('/register')->withInput();
         }
             
         $user = new User();
-        $user->email = $email;
-        $user->password = $pass;
-        $user->fname = $first_name;
-        $user->mname = $middle_name;
-        $user->lname = $last_name;
-        $user->dob = $dob;
-        $user->gender = $gender;
-        $user->type = ($isStudent == null?'non-student':'student');
-        $user->phone_no = $cell;
-        $user->address = $campus_address;
-        $user->passport_no = $passport;
-        $user->country = $passport_country;
-        $user->emergency_contact_name = $emergency_name;
-        $user->emergency_contact_address = $emergency_street;
-        $user->emergency_contact_phone = $emergency_phone;
-        $user->student_id = $id_number;
-        $user->class_year = $class;
-        $user->campus_box = $campus_box;
+        $user->email = Input::get('email');
+        $user->password = Hash::make(Input::get('password'));
+        $user->fname = Input::get('first_name');
+        $user->mname = Input::get('middle_name');
+        $user->lname = Input::get('last_name');
+        $user->dob = Input::get('dob');
+        $user->gender = Input::get('gender');
+        $user->type = (Input::get('isStudent') == null?'non-student':'student');
+        $user->phone_no = Input::get('cell');
+        $user->address = Input::get('campus_address');
+        $user->passport_no = Input::get('passport');
+        $user->country = Input::get('passport_country');
+        $user->emergency_contact_name = Input::get('emergency_name');
+        $user->emergency_contact_address = Input::get('emergency_street');
+        $user->emergency_contact_phone = Input::get('emergency_phone');
+        $user->student_id = Input::get('id_number');
+        $user->class_year = Input::get('class');
+        $user->campus_box = Input::get('campus_box');
         
         $user->save();
     

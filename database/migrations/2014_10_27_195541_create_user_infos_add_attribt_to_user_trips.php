@@ -26,9 +26,10 @@ class CreateUserInfosAddAttribtToUserTrips extends Migration {
 			$table->text('allergy_medical_conditions')->nullable();
 			$table->text('relevant_experience_interest')->nullable();
 			$table->text('bio')->nullable();
+                        $table->timestamps();
 		});
 		
-		Schema::table('user_trips', function($table){
+		Schema::table('trip_users', function($table){
 			$table->boolean('trip_leader')->nullable();
 		
 		});
@@ -44,7 +45,7 @@ class CreateUserInfosAddAttribtToUserTrips extends Migration {
 		//
 		Schema::drop('user_infos');
 		
-		Schema::table('user_trips', function($table){
+		Schema::table('trip_users', function($table){
 			$table->dropColumn('trip_leader');
 		});
 		

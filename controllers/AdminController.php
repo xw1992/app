@@ -28,7 +28,7 @@ class AdminController extends BaseController{
     
     public function assignTripLeader(){
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $userTrip->user->type = 'Leader';
+        $userTrip->trip_leader = 1;
         $userTrip->user->save();
         Session::flash("adminSuccess", "{$userTrip->user->fname} successfully assigned as a Trip leader for {$userTrip->trip->name}.");
         return Redirect::to('/');

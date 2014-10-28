@@ -16,4 +16,8 @@ class UserTrip extends Eloquent{
         return $this->belongsTo('Trip');
     }
     
+    public function info(){
+        return $this->belongsTo('UserInfo');
+    }
+    
 }

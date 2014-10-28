@@ -19,10 +19,16 @@ class UserController extends BaseController{
             }
             else{
                 if($userTrip->waitlisted){
-                    return "you have been waitlisted, would you like to select another trip";
+                    return View::make(/*waitlisted view*/);
                 }
                 else if($userTrip->approved){
-                    return View::make('dashboard');
+                    $infoCheck = UserInfo::where('user_id', '=', Auth::user()->id)->first();
+                    if($infoCheck){
+                        return View::make(/*info form*/);
+                    }
+                    else{
+                        return View::make('dashboard');
+                    }
                 }
                 else{
                     return View::make('awaiting_approval', compact('userTrip'));
@@ -49,8 +55,7 @@ class UserController extends BaseController{
     }
     
     public function signup(){
-        if(!User::isValid(Input::all())){
-            
+        if(!User::isValid(Input::all())){   
             return Redirect::to('/register')->withInput();
         }
             
@@ -81,6 +86,30 @@ class UserController extends BaseController{
         Session::flash('registration_success',1);
     
         return Redirect::to('/');
+    }
+    
+    public function userInfo(){
+        if(!UserInfo::isValid(Input::all())){
+            return Redirect::to('/')->withInput();
+        }
+        
+        $userInfo = new UserInfo();
+        $userInfo->user_id = Auth::user()->id;
+        $userInfo->hometown_state = Input::get();
+        $userInfo->passport_no = Input::get();
+        $userInfo->major_academic_interest = Input::get();
+        $userInfo->dietary_allergies_access_needs = Input::get();
+        $userInfo->foreign_languages = Input::get();
+        $userInfo->smoke = Input::get();
+        $userInfo->allergy_medical_conditions = Input::get();
+        $userInfo->relevant_experience_interest = Input::get();
+        $userInfo->bio = Input::get();
+        
+        $userInfo->save();
+        
+        Session::flash('userSuccess', 'You have successfully filled out your user information sheet.');
+        
+        return Redirect::to('/');        
     }
 }
 

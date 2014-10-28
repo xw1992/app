@@ -28,10 +28,18 @@ class AdminController extends BaseController{
     
     public function assignTripLeader(){
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $userTrip->trip_leader = 1;
-        $userTrip->user->save();
-        Session::flash("adminSuccess", "{$userTrip->user->fname} successfully assigned as a Trip leader for {$userTrip->trip->name}.");
-        return Redirect::to('/');
+        if($userTrip->trip_leader){
+            $userTrip->trip_leader = 0;
+            $userTrip->user->save();
+            Session::flash("adminSuccess", "{$userTrip->user->fname} successfully unassigned as a Trip leader for {$userTrip->trip->name}.");
+            return Redirect::to('/');
+        }
+        else{
+            $userTrip->trip_leader = 1;
+            $userTrip->user->save();
+            Session::flash("adminSuccess", "{$userTrip->user->fname} successfully assigned as a Trip leader for {$userTrip->trip->name}.");
+            return Redirect::to('/');
+        }
     }
     
     public function changeTrip(){

@@ -16,6 +16,10 @@ Route::group(['before' => 'auth'], function(){
         Route::post('/selectTrip', 'TripController@selectTrip');
         
         Route::post('/waitlistChangeTrip', 'TripController@waitlistChangeTrip');
+        
+        Route::post('/saveInfo', 'UserController@saveInfo');
+        
+        Route::post('/removeFromWaitlist', 'TripController@removeFromWaitlist');
 
 });
 

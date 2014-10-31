@@ -8,20 +8,18 @@
 
 class UserInfo extends Eloquent{    
     public static $rules = [
-        
-    ];
-    
-    public static $messages = [
-        
+        'passport_no' => 'required',
+        'reason' => 'required',
+        'autobiography' => 'required'
     ];
     
     public static function isValid($data){
-            $validation = Validator::make($data, static::$rules, static::$messages);
+            $validation = Validator::make($data, static::$rules);
         
             if($validation->passes()){
                 return true;
             }
-            Session::flash('formError', $validation->messages()->all());
+            Session::flash('formError', $validation->all());
             return false;
         } 
 }

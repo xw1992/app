@@ -19,12 +19,13 @@ class UserController extends BaseController{
             }
             else{
                 if($userTrip->waitlisted){
-                    return View::make(/*waitlisted view*/);
+                    return View::make('waitlist', compact('userTrip'));
                 }
                 else if($userTrip->approved){
                     $infoCheck = UserInfo::where('user_id', '=', Auth::user()->id)->first();
-                    if($infoCheck){
-                        return View::make(/*info form*/);
+                    if(!$infoCheck){
+                        $international = $userTrip->trip->international;
+                        return View::make('info_form', compact('international'));
                     }
                     else{
                         return View::make('dashboard');
@@ -88,22 +89,22 @@ class UserController extends BaseController{
         return Redirect::to('/');
     }
     
-    public function userInfo(){
+    public function saveInfo(){
         if(!UserInfo::isValid(Input::all())){
             return Redirect::to('/')->withInput();
         }
         
         $userInfo = new UserInfo();
         $userInfo->user_id = Auth::user()->id;
-        $userInfo->hometown_state = Input::get();
-        $userInfo->passport_no = Input::get();
-        $userInfo->major_academic_interest = Input::get();
-        $userInfo->dietary_allergies_access_needs = Input::get();
-        $userInfo->foreign_languages = Input::get();
-        $userInfo->smoke = Input::get();
-        $userInfo->allergy_medical_conditions = Input::get();
-        $userInfo->relevant_experience_interest = Input::get();
-        $userInfo->bio = Input::get();
+        $userInfo->major_academic_interest = Input::get('major');
+        $userInfo->passport_no = Input::get('passport_no');
+        $userInfo->hometown_state = Input::get('hometown_state');
+        $userInfo->dietary_allergies_access_needs = Input::get('dietary_needs');
+        $userInfo->foreign_languages = Input::get('languages');
+        $userInfo->smoke = Input::get('smoker');
+        $userInfo->allergy_medical_conditions = Input::get('medical');
+        $userInfo->relevant_experience_interest = Input::get('reason');
+        $userInfo->bio = Input::get('autobiography');
         
         $userInfo->save();
         

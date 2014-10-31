@@ -18,7 +18,7 @@ class TripController extends BaseController{
         return Redirect::to('/');
     }
     
-    public function waitlistChangeTrip(){
+    public function removeFromWaitlist(){
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
         $userTrip->trip->waitlist_no--;
         $userTrip->trip->save();

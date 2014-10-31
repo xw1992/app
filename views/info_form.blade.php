@@ -8,7 +8,9 @@
 @stop
 
 @section('content')
-
+<div class="alert alert-success">
+     <h3>Congratulations you have been approved for this trip please fill out the form below.</h3>
+     </div>
 
         <div class="row centered-form">
         	<div class="panel panel-default">
@@ -16,19 +18,36 @@
 			    		<h3 class="panel-title">Participant Information</h3>
 			 			</div>
 			 			<div class="panel-body">
-			 			
-			    		<form role="form" class = "form" action="/info" method="post">
+			 		{{Form::open(['url'=>'/saveInfo', 'method'=>'post','class'=>'form'])}}
 			    		
 			    		Please fill out the following participant information.  This information
 			    		will be used by the Project Leader to get to know you better, and by the site
 			    		partner in arranging for your stay
 			    		<br><br>
-			    		
+                                        @if(!Auth::user()->passport_no and $international)
+			    		        <div class="row">
+			    				<div class="col-md-4 col-md-6 col-md-6">
+			    					<div class="form-group">
+			    					<h5>Passport Number:</h5>
+                                                                <input type="text" name="passport_no" id="passport_no" class="form-control input-md" required>
+			    					</div>
+			    				</div>
+			    			</div>
+                                        @endif
 			    			<div class="row">
 			    				<div class="col-md-4 col-md-6 col-md-6">
 			    					<div class="form-group">
 			    					<h5>Major field of study or academic interest:</h5>
-			                <input type="text" name="major" id="major" class="form-control input-md" >
+			                <input type="text" name="major" id="major" class="form-control input-md" required>
+			    					</div>
+			    				</div>
+			    			</div>
+                                        
+                                                <div class="row">
+			    				<div class="col-md-4 col-md-6 col-md-6">
+			    					<div class="form-group">
+			    					<h5>Hometown and State:</h5>
+                                                                <input type="text" name="hometown_state" class="form-control input-md" required>
 			    					</div>
 			    				</div>
 			    			</div>
@@ -36,19 +55,11 @@
 			    			<div class="row">
 			    				<div class="col-md-6 col-md-6 col-md-6">
 			    					<div class = "form-group">
-			    					<h5>Dietary Needs / Food Allergies:</h5>
+			    					<h5>Dietary Needs / Food Allergies / Access Needs:</h5>
 			    						<textarea name ="dietary_needs" id="dietary_needs" class="form-control input-md" rows="5"></textarea>
 			    					</div>
 			    				</div>
-			    				</div>
-			    				<div class="row">	
-			    				<div class = "col-md-6 col-md-6 col-md-6">
-			    				<h5>Access Needs</h5>
-			    				<div class = "form-group">
-			    					<textarea name="access_needs" id="access_needs" class="form-control input-md" rows="5"></textarea>
-			    				</div>
-			    				</div>	 
-			    			</div>   				
+                                                </div>   				
 			    				 
 			    		  <div class="row">			
 			    			<div class = "col-md-6 col-md-6 col-md-6">
@@ -69,8 +80,8 @@
 								<div class = "col-md-2 col-sm-6 col-md-6">
 			    				<div class="form-group">
 			    					<select class="form-control input-sm" name = "smoker">
-			    						<option>No</option>
-			    						<option>Yes</option>
+			    						<option value="0">No</option>
+			    						<option value="1">Yes</option>
 			    					</select>
 			    					</div>
 			    			</div>
@@ -90,7 +101,7 @@
 			    			<div class="form-group">
 			    				<h5>List your interests or previous experiences relevent to the location or nature of the project site.  
 			    				Why did you choose this site?</h5>
-			    				<textarea name="reason" id="reason" class="form-control input-md" rows="5"></textarea>
+			    				<textarea name="reason" id="reason" class="form-control input-md" rows="5" required></textarea>
 			    			</div>
 			    		</div>  
 						</div>			    		
@@ -101,7 +112,7 @@
 			    				<h5>Write a brief autobiographical sketch that tells the site coordinator
 			    				and the host family about you.  Topics you might cover are:
 			    				family, where you have lived, hobbies or interests, campus activities, etc.</h5>
-			    				<textarea name="autobiography" id="autobiography" class="form-control input-md" rows="5"></textarea>
+			    				<textarea name="autobiography" id="autobiography" class="form-control input-md" rows="5" required></textarea>
 			    			</div>
 			    		</div>	
 			    		</div>	

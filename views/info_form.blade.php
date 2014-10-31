@@ -25,7 +25,7 @@
 			    		<br><br>
 			    		
 			    			<div class="row">
-			    				<div class="col-md-2 col-md-6 col-md-6">
+			    				<div class="col-md-4 col-md-6 col-md-6">
 			    					<div class="form-group">
 			    					<h5>Major field of study or academic interest:</h5>
 			                <input type="text" name="major" id="major" class="form-control input-md" >
@@ -34,7 +34,7 @@
 			    			</div>
 			    			
 			    			<div class="row">
-			    				<div class="col-md-4 col-md-6 col-md-6">
+			    				<div class="col-md-6 col-md-6 col-md-6">
 			    					<div class = "form-group">
 			    					<h5>Dietary Needs / Food Allergies:</h5>
 			    						<textarea name ="dietary_needs" id="dietary_needs" class="form-control input-md" rows="5"></textarea>
@@ -42,7 +42,7 @@
 			    				</div>
 			    				</div>
 			    				<div class="row">	
-			    				<div class = "col-md-2 col-md-6 col-md-6">
+			    				<div class = "col-md-6 col-md-6 col-md-6">
 			    				<h5>Access Needs</h5>
 			    				<div class = "form-group">
 			    					<textarea name="access_needs" id="access_needs" class="form-control input-md" rows="5"></textarea>
@@ -51,7 +51,7 @@
 			    			</div>   				
 			    				 
 			    		  <div class="row">			
-			    			<div class = "col-md-2 col-md-6 col-md-6">
+			    			<div class = "col-md-6 col-md-6 col-md-6">
 			    				<div class="form-group">
 			    				<h5>Are you fluent in a foreign language?  If so, list which language(s):</h5>
 			    					<textarea name="languages" id="languages" class="form-control input-md" rows="3"></textarea>
@@ -60,13 +60,13 @@
 			    			</div>
 
 							<div class="row">
-							<div class = "col-md-2 col-sm-6 col-md-6">
+							<div class = "col-md-6 col-sm-6 col-md-6">
 							<h5>Do you smoke?</h5>
 			    			This information is relevent for host families.<br>
 								</div>
 								</div>
 								<div class="row">
-								<div class = "col-md-2 col-sm-2 col-md-6">
+								<div class = "col-md-2 col-sm-6 col-md-6">
 			    				<div class="form-group">
 			    					<select class="form-control input-sm" name = "smoker">
 			    						<option>No</option>
@@ -77,7 +77,7 @@
 			    	  </div>  	
 			    	  
 			    	  <div class="row">		    			
-			    			<div class = "col-md-4 col-md-6 col-md-6">
+			    			<div class = "col-md-6 col-md-6 col-md-6">
 			    				<div class="form-group">
 			    				<h5>List any allergies or medical conditions of which your host family/site coordinator should be aware of.</h5>
 			    				<textarea name="medical" id="medical" class="form-control input-md" rows = "5"></textarea>
@@ -86,7 +86,7 @@
 			    		</div>
 			    		
 			    		<div class="row">
-			    		<div class="col-md-4 col-md-6 col-md-6">
+			    		<div class="col-md-6 col-md-6 col-md-6">
 			    			<div class="form-group">
 			    				<h5>List your interests or previous experiences relevent to the location or nature of the project site.  
 			    				Why did you choose this site?</h5>
@@ -96,7 +96,7 @@
 						</div>			    		
 			    		
 			    		<div class="row">
-			    		<div class="col-md-4 col-md-6 col-md-6">
+			    		<div class="col-md-6 col-md-6 col-md-6">
 			    			<div class="form-group">
 			    				<h5>Write a brief autobiographical sketch that tells the site coordinator
 			    				and the host family about you.  Topics you might cover are:

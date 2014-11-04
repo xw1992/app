@@ -18,7 +18,7 @@ class EditUserInfoAndUserTripsCreatePaymentHistories extends Migration {
 			$table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');
 		});
 		
-		Schema::table('user_trips', function($table){
+		Schema::table('trip_users', function($table){
 			$table->decimal('deposit')->default(0);
 			$table->decimal('leader_award')->default(0);
 			$table->decimal('scholarship_award')->default(0);
@@ -31,7 +31,7 @@ class EditUserInfoAndUserTripsCreatePaymentHistories extends Migration {
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->integer('user_trip_id')->unsigned();
-			$table->foreign('user_trip_id')->references('id')->on('user_trips')->onDelete('cascade');
+			$table->foreign('user_trip_id')->references('id')->on('trip_users')->onDelete('cascade');
 			$table->decimal('amount');
 			$table->date('date');
 			$table->timestamps();
@@ -56,7 +56,7 @@ class EditUserInfoAndUserTripsCreatePaymentHistories extends Migration {
 			$table->dropColumn('trip_id');
 		});
 		
-		Schema::table('user_trips', function($table){
+		Schema::table('trip_users', function($table){
 			$table->dropColumn('deposit');
 			$table->dropColumn('leader_award');
 			$table->dropColumn('scholarship_award');

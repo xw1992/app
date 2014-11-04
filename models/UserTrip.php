@@ -20,4 +20,8 @@ class UserTrip extends Eloquent{
         return $this->belongsTo('UserInfo');
     }
     
+    public function payment(){
+        return $this->belongsTo('Payments');
+    }
+    
 }

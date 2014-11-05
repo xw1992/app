@@ -7,25 +7,23 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
-	use UserTrait, RemindableTrait;
+    use UserTrait,
+        RemindableTrait;
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
-        
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password', 'remember_token');
-        
-        
-        public static $rules = [
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = array('password', 'remember_token');
+    public static $rules = [
         'first_name' => 'required|alpha',
         'middle_name' => 'alpha',
         'last_name' => 'required|alpha',
@@ -43,23 +41,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'campus_box' => 'numeric',
         'email' => 'required|email|unique:users',
         'password' => 'required|alpha_num|min:6|confirmed',
-        'password_confirmation' => 'required|min:6|alpha_num', 
-        ];
+        'password_confirmation' => 'required|min:6|alpha_num',
+    ];
+    public static $messages = [
+        'dob.regex' => 'Your :attribute is not formatted right. Please use format "01/01/2001"',
+        'cell.regex' => 'Your :attribute is not formatted right. Please use format "123-456-7890"',
+        'emergency_phone.regex' => 'Your :attribute is not formatted right. Please use format "123-456-7890"',
+    ];
 
-        public static $messages = [
-            'dob.regex' => 'Your :attribute is not formatted right. Please use format "01/01/2001"',
-            'cell.regex' => 'Your :attribute is not formatted right. Please use format "123-456-7890"',
-            'emergency_phone.regex' => 'Your :attribute is not formatted right. Please use format "123-456-7890"',
-        ];
-        
-            
-         public static function isValid($data){
-            $validation = Validator::make($data, static::$rules, static::$messages);
-        
-            if($validation->passes()){
-                return true;
-            }
-            Session::flash('registerError', $validation->messages()->all());
-            return false;
-        } 
+    public static function isValid($data) {
+        $validation = Validator::make($data, static::$rules, static::$messages);
+
+        if ($validation->passes()) {
+            return true;
+        }
+        Session::flash('registerError', $validation->messages()->all());
+        return false;
+    }
+
+    public function userTrip() {
+        return $this->hasOne('UserTrip');
+    }
+
 }

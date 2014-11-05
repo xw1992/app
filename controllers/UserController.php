@@ -1,65 +1,59 @@
 <?php
 
-class UserController extends BaseController{
-    
-    public function home(){
-        if(!Auth::check()){
+class UserController extends BaseController {
+
+    public function home() {
+        if (!Auth::check()) {
             return View::make('login');
-        }
-        else if(Auth::user()->type == 'admin'){
+        } else if (Auth::user()->type == 'admin') {
             $userTrips = UserTrip::with('user', 'trip')->where('waitlisted', '=', 0)->where('approved', '=', 0)->get();
-            
+
             return View::make('admin_home', compact('userTrips'));
-        }
-        else{
+        } else {
             $userTrip = UserTrip::where('user_id', '=', Auth::user()->id)->first();
-            if(!$userTrip){
+            if (!$userTrip) {
                 $trips = Trip::where('open', '=', 1)->get();
                 return View::make('select_trip', compact('trips'));
-            }
-            else{
-                if($userTrip->waitlisted){
+            } else {
+                if ($userTrip->waitlisted) {
                     return View::make('waitlist', compact('userTrip'));
-                }
-                else if($userTrip->approved){
+                } else if ($userTrip->approved) {
                     $infoCheck = UserInfo::where('user_id', '=', Auth::user()->id)->first();
-                    if(!$infoCheck){
+                    if (!$infoCheck) {
                         $international = $userTrip->trip->international;
                         return View::make('info_form', compact('international'));
-                    }
-                    else{
+                    } else {
                         return View::make('dashboard');
                     }
-                }
-                else{
+                } else {
                     return View::make('awaiting_approval', compact('userTrip'));
                 }
             }
         }
-    } 
+    }
 
-    public function login(){
-        if(Auth::attempt(array('email'=>Input::get('email'),'password'=>Input::get('password')))){
+    public function login() {
+        if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))) {
             return Redirect::to('/');
         }
-        Session::flash('loginError','Invalid credentials. Please try again.');
+        Session::flash('loginError', 'Invalid credentials. Please try again.');
         return Redirect::to('/')->withInput();
     }
-    
-    public function logout(){
+
+    public function logout() {
         Auth::logout();
         return Redirect::to('/');
     }
-    
-    public function showSignup(){
+
+    public function showSignup() {
         return View::make('register');
     }
-    
-    public function signup(){
-        if(!User::isValid(Input::all())){   
+
+    public function signup() {
+        if (!User::isValid(Input::all())) {
             return Redirect::to('/register')->withInput();
         }
-            
+
         $user = new User();
         $user->email = Input::get('email');
         $user->password = Hash::make(Input::get('password'));
@@ -68,7 +62,7 @@ class UserController extends BaseController{
         $user->lname = Input::get('last_name');
         $user->dob = Input::get('dob');
         $user->gender = Input::get('gender');
-        $user->type = (Input::get('isStudent') == null?'non-student':'student');
+        $user->type = (Input::get('isStudent') == null ? 'non-student' : 'student');
         $user->phone_no = Input::get('cell');
         $user->address = Input::get('campus_address');
         $user->passport_no = Input::get('passport');
@@ -79,21 +73,21 @@ class UserController extends BaseController{
         $user->student_id = Input::get('id_number');
         $user->class_year = Input::get('class');
         $user->campus_box = Input::get('campus_box');
-        
+
         $user->save();
-    
+
         Auth::login($user);
-        
-        Session::flash('registration_success',1);
-    
+
+        Session::flash('registration_success', 1);
+
         return Redirect::to('/');
     }
-    
-    public function saveInfo(){
-        if(!UserInfo::isValid(Input::all())){
+
+    public function saveInfo() {
+        if (!UserInfo::isValid(Input::all())) {
             return Redirect::to('/')->withInput();
         }
-        
+
         $userInfo = new UserInfo();
         $userInfo->user_id = Auth::user()->id;
         $userInfo->major_academic_interest = Input::get('major');
@@ -105,13 +99,12 @@ class UserController extends BaseController{
         $userInfo->allergy_medical_conditions = Input::get('medical');
         $userInfo->relevant_experience_interest = Input::get('reason');
         $userInfo->bio = Input::get('autobiography');
-        
+
         $userInfo->save();
-        
+
         Session::flash('userSuccess', 'You have successfully filled out your user information sheet.');
-        
-        return Redirect::to('/');        
+
+        return Redirect::to('/');
     }
+
 }
-
-

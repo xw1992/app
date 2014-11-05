@@ -14,7 +14,6 @@
 <h4>{{ $trip->name }}</h4>
 <table class="table table-hover">
     <thead>
-
         <tr>
             <th>Student Id</th>
             <th>Name</th>
@@ -42,7 +41,6 @@
             Yes
             @else
             No
-
             @endif
         </td>
         <td> <button type="button" class="btn btn-info btn-cons" data-toggle="modal" data-target="#manageModal{{ $user->id }}">
@@ -56,7 +54,6 @@
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                     <h4 class="modal-title" id="myModalLabel">Manage Participant: {{$user->fname .' '. $user->lname}}</h4>
                 </div>
-
                 <div class="modal-body">
                     <div class="row">
                         Change the trip of the participant:
@@ -83,7 +80,6 @@
                     </div>
 
                     <h3>Student Application Status</h3>
-
 
                     <br>
                     <h3>Student Payment Information</h3>

@@ -1,0 +1,6 @@
+@extends('template')@section('nav_items')	<li class = "active">
+        <a href="/"><font size = "4" color="white">log out</font></a>
+   </li>@stop@section('content')    
+
+
+@stop

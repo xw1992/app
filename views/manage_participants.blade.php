@@ -1,4 +1,4 @@
-	@extends('templateDoubleHead')
+	@extends('templateDoubleNav')
 
 	@section('nav_items')
 	<li class = "active">
@@ -13,8 +13,6 @@
 	@foreach($trips as $trip)
 	<table>
 		<thead>
-			<tr> <h4>Approve / Waitlist Trip Applicants</h4>
-			</tr>
 			<tr>
 				<th>Student Id</th>
 				<th>Name</th>
@@ -50,10 +48,10 @@
 						<div class="row">
 							Change the trip of the participant:
 							<div class="form-group col-xs-8 col-xs-offset-2">
-								{{ Form::open(array('url' => '/selectTrip', 'method' => 'post')) }}
+								 Form::open(array('url' => '/selectTrip', 'method' => 'post')) }}
 								<select class="form-control input-lg" name = "trip_id">
 									@foreach($trips as $trip)
-									<option value="{{ $trip->id }}">{{ $trip->name }}</option>
+									<option value="{{$trip->id }}"> {{$trip->name }}</option>
 									@endforeach
 								</select>								
 							</div>
@@ -76,6 +74,21 @@
 
 						<br>
 						<h3>Student Payment Information</h3>
+						<h4>Payment History</h4>
+						<table>
+								@foreach($payments as $payment)
+									<tr>
+										<td>{{$payment->amount}}</td>
+										<td>{{$payment->date}}</td>
+									</tr>
+								@endforeach
+						</table>
+
+						Record a Payment:<br>
+						Amount:
+						<input type="text" name="amount" class="form-control input-md">
+						Date:
+						<input type="text" name="date" class="form-control input-md">
 						
 					</div>
 				</div>

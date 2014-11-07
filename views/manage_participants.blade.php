@@ -192,6 +192,14 @@
 					<h4>Catholic Award</h4>
 					{{Form::text('catholic_award', $user->userTrip->catholic_award,['class'=>'input-control'])}}
 				</div>
+
+				<div class="row">
+					{{$userTrip->total_due}}
+					{{$userTrip->cost}}
+					{{$userTrip->deposite}}
+				</div>
+				{{$userTrip->total_due}}<br>
+				{{Form::submit('save')}}
 				</div>
 
 				<h4>Submit a payment for this participant</h4>
@@ -204,6 +212,7 @@
 				{{Form::selectMonth('month')}}
 				{{Form::selectRange('year', 2000, 2015)}}
 			</div>
+			{{Form::submit('submit payment')}}
 
 				<br><br>
   

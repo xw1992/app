@@ -180,7 +180,22 @@
 			</div>
 			<div class="modal-body">
 
+				<h4>Awards</h4>
+				<div class="panel">
+				<div class="row">
+					<h4>Leader Award</h4>
+					{{Form::text('leader_award', $user->userTrip->leader_award,['class'=>'input-control'])}}
+
+					<h4>Scholarship Award</h4>
+					{{Form::text('scholarship_award', $user->userTrip->scholarship_award,['class'=>'input-control'])}}
+					
+					<h4>Catholic Award</h4>
+					{{Form::text('catholic_award', $user->userTrip->catholic_award,['class'=>'input-control'])}}
+				</div>
+				</div>
+
 				<h4>Submit a payment for this participant</h4>
+				<div class="panel"
 				Payment Amount:<br>
 				<Input type="number" name="amount">
 				<br><br>
@@ -188,14 +203,12 @@
 				{{Form::selectRange('day', 1, 31)}}
 				{{Form::selectMonth('month')}}
 				{{Form::selectRange('year', 2000, 2015)}}
+			</div>
 
 				<br><br>
   
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="submit" class="btn btn-info">Save changes</button>
-			</div>
+			
 		</div>
 	</div>
 </div>

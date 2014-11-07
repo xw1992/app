@@ -21,8 +21,8 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">Immersion Project Management System</a>
                 </div>
-                <ul class = "nav pull-righ">
-
+                <ul class = "nav pull-right">
+                    @yield('nav_items')
                 </ul>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">

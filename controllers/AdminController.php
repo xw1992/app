@@ -42,20 +42,20 @@ class AdminController extends BaseController {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
         if ($userTrip->trip_leader) {
             $userTrip->trip_leader = 0;
-            $userTrip->user->save();
-            Session::flash("adminSuccess", "{$userTrip->user->fname} successfully unassigned as a Trip leader for {$userTrip->trip->name}.");
-            return Redirect::to('/');
+            $userTrip->save();
+            Session::flash("adminSuccess", "{$userTrip->user->fname} is no longer a Trip leader for {$userTrip->trip->name}.");
+            return Redirect::to('/manageParticipants');
         } else {
             $userTrip->trip_leader = 1;
-            $userTrip->user->save();
-            Session::flash("adminSuccess", "{$userTrip->user->fname} successfully assigned as a Trip leader for {$userTrip->trip->name}.");
+            $userTrip->save();
+            Session::flash("adminSuccess", "{$userTrip->user->fname} is now a Trip leader for {$userTrip->trip->name}.");
             return Redirect::to('/manageParticipants');
         }
     }
 
     public function changeTrip() {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $userTrip->trip_id = Input::get(/* attribute for changing a trip */);
+        $userTrip->trip_id = Input::get('trip_id');
         $userTrip->save();
         Session::flash("adminSuccess", "{$userTrip->user->fname} successfully changed trips to {$userTrip->trip->name}.");
         return Redirect::to('/manageParticipants');

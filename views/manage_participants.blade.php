@@ -1,17 +1,17 @@
 @extends('templateDoubleNav')
 
-@section('nav_items')
-<li class = "active">
-    <a href="/"><font size = "4" color="white">log out</font></a>
-</li>
-@stop
-
 @section('content')    
 
-<h4>Manage Participants</h4>
+@if(Session::has('adminSuccess'))
+                        <div class="alert alert-success" role="alert">
+                            {{Session::get('adminSuccess')}}
+                        </div>
+@endif
+<h4 class="text-center">Manage Participants</h4>
 
 @foreach($trips as $trip)
-<h4>{{ $trip->name }}</h4>
+<h2>{{ $trip->name }}
+    <small>Enrolled: {{$trip->enroll_no}}/{{$trip->capacity}}</small></h2>
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -19,22 +19,22 @@
 			<th>Name</th>
 			<th>Status</th>
 			<th>Trip Leader</th>
-			<th>Manage</th>
+			<th>Move</th>
 			<th>Finances</th>
 		</tr>
 	</thead>
     @foreach($users as $user)
     @if($user->userTrip and $trip->id == $user->userTrip->trip_id)
     <tr>
-        <td> {{$user->student_id }}</td>
+        <td>{{$user->student_id}}</td>
         <td> <a href="#"
 			data-toggle="modal"
-			data-target="#studentModal">{{$user->fname .' '. $user->lname}}</a>
+			data-target="#studentModal{{$user->id}}">{{$user->fname .' '. $user->lname}}</a>
 		</td>
         <td> 
         	<a href="#"
 			data-toggle="modal"
-			data-target="#statusModal">
+			data-target="#statusModal{{$user->id}}">
 				@if($user->userTrip->approved)
             		approved
             	@elseif($user->userTrip->waitlisted)
@@ -46,7 +46,7 @@
         <td> 
         	<a href="#"
 			data-toggle="modal"
-			data-target="#studentLeaderModal">
+			data-target="#studentLeaderModal{{$user->id}}">
 				@if( $user->userTrip->trip_leader)
             		Yes
             	@else
@@ -56,21 +56,15 @@
             
         </td>
         <td> <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#manageModal{{ $user->id }}">
-                Manage Participant
+                Move Participant
             </button>
         </td>
-        <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#financeModal">
+        <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#financeModal{{$user->id}}">
 				Finances
 			</button>
 		</td>
     </tr>
-    
-    @endif
-    @endforeach
-</table>
-@endforeach
-
-<div class="modal fade" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal fade" id="studentModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -78,6 +72,7 @@
 				<h4 class="modal-title" id="studentModalLabel">Participant Information: {{$user->fname .' '. $user->lname}}</h4>
 			</div>
 			<div class="modal-body">
+                            <h4>{{$user->fname}}</h4>
 				<a href="#">Edit Information</a>
 
 			</div>
@@ -89,7 +84,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+<div class="modal fade" id="statusModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -97,21 +92,35 @@
 				<h4 class="modal-title" id="statusModalLabel">Participant Status</h4>
 			</div>
 			<div class="modal-body">
-				This student is currently {{$userTrip->user->tripStatus}} for this trip.
+				{{$user->fname}} is currently {{$user->userTrip->approved?'approved':($user->userTrip->waitlisted?'waitlisted':'awaiting approval')}} for this trip.
 				<br>
 				<h5>If you would like to change the status of this student, please use the following options:</h5>
-				<button type="button" class="btn btn-success btn-sm">Approve</button>
-				<button type="button" class="btn btn-warning btn-sm">Waitlist</button>
-				<button type="button" class="btn btn-danger btn-sm">Remove</button>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				@if(!$user->userTrip->approved and $trip->enroll_no < $trip->capacity)
+                                {{ Form::open(array('url' => '/approveApplicant', 'method' => 'post')) }}
+                                    {{Form::hidden("id", $user->userTrip->id)}}
+                                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                                </form>
+                                @endif
+                                @if(!$user->userTrip->approved and !$user->userTrip->waitlisted)
+                                {{ Form::open(array('url' => '/waitlistApplicant', 'method' => 'post')) }}
+                                    {{Form::hidden("id", $user->userTrip->id)}}
+                                    <button type="submit" class="btn btn-warning btn-sm">Waitlist</button>
+                                </form>
+                                @endif
+                                {{ Form::open(array('url' => '/removeFromTrip', 'method' => 'post')) }}
+                                    {{Form::hidden("id", $user->userTrip->id)}}
+                                <button type="submit" class="btn btn-danger btn-sm">Remove from trip</button>
+                                </form>
+    
+                                
+				
+				
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="modal fade" id="studentLeaderModal" tabindex="-1" role="dialog" aria-labelledby="studentLeaderModalLabel" aria-hidden="true">
+<div class="modal fade" id="studentLeaderModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="studentLeaderModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -119,16 +128,16 @@
 				<h4 class="modal-title" id="studentLeaderModalLabel">Trip Leader</h4>
 			</div>
 			<div class="modal-body">
-				<button type="button" class="btn btn-info btn-sm">
-					@if({{userTrip->user->tripLeader ==1 }})
-						Remove this student as a trip leader
+                            {{ Form::open(array('url' => '/assignTripLeader', 'method' => 'post')) }}
+                                {{Form::hidden("id", $user->userTrip->id)}}
+				<button type="submit" class="btn btn-info btn-sm">
+					@if($user->userTrip->trip_leader)
+						un-assign {{$user->fname}} as a trip leader
 					@else
-						Make this student a student leader
+						Make {{$user->fname}} a trip leader
 					@endif
 				</button>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            </form>
 			</div>
 		</div>
 	</div>
@@ -139,33 +148,30 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Manage Participant: {{$user->fname .' '. $user->lname}}</h4>
+                    <h4 class="modal-title" id="myModalLabel">Move Participant: {{$user->fname .' '. $user->lname}}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         Change the trip of the participant:
                         <div class="form-group">
-                            {{ Form::open(array('url' => '/selectTrip', 'method' => 'post')) }}
+                            {{ Form::open(array('url' => '/changeTrip', 'method' => 'post')) }}
+                            {{Form::hidden("id", $user->userTrip->id)}}
                             <select class="form-control input-lg" name = "trip_id">
-                                @foreach($trips as $trip)
-                                <option value="{{ $trip->id }}">{{ $trip->name }}</option>
+                                @foreach($trips as $trip1)
+                                    <option value="{{ $trip1->id }}">{{ $trip1->name }}</option>
                                 @endforeach
                             </select>								
                         </div>
-                    </div>	
+                    </div>
                     <button type="submit" class="btn btn-info">Confirm Trip Change</button>
+                         </form>
                     
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-info">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="financeModal" tabindex="-1" role="dialog" aria=labelledby="financeModal" aria-hidden="true">
+    <div class="modal fade" id="financeModal{{$user->id}}" tabindex="-1" role="dialog" aria=labelledby="financeModal" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -176,7 +182,7 @@
 
 				<h4>Submit a payment for this participant</h4>
 				Payment Amount:<br>
-				{{Form::number('amount','value')}}
+				<Input type="number" name="amount">
 				<br><br>
 				Date:<br>
 				{{Form::selectRange('day', 1, 31)}}
@@ -184,17 +190,7 @@
 				{{Form::selectRange('year', 2000, 2015)}}
 
 				<br><br>
-				<h4>Payment History</h4>
-				<table class="table table-hover">
-					<thead>
-						<th>Amount</th>
-						<th>Date</th>
-					</thead>
-					<tr>
-						<td>{{$payment->amount}}</td>
-						<td>{{$payment->date}}</td>
-					</tr>
-				</table>
+  
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -203,5 +199,9 @@
 		</div>
 	</div>
 </div>
+    @endif
+    @endforeach
+</table>
+@endforeach
 
 @stop

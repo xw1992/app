@@ -36,7 +36,7 @@ Route::group(['before' => 'admin'], function() {
 
     Route::post('/approveApplicant', 'AdminController@approve');
 
-    Route::post('/AssignTripLeader', 'AdminController@assignTripLeader');
+    Route::post('/assignTripLeader', 'AdminController@assignTripLeader');
 
     Route::post('/changeTrip', 'AdminController@changeTrip');
 

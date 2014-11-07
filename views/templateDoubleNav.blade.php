@@ -16,13 +16,40 @@
 
     <body>
 
-        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <nav class="navbar navbar-inverse" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Immersion Project Management System</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="/manageParticipants">participants</a></li>
+              <li><a href="#">forms</a></li>
+              <li><a href="#">trips</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
+        
+        <!--div class="navbar navbar-inverse navbar-static-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">Immersion Project Management System</a>
                 </div>
-                <ul class = "nav pull-right">
+                <ul class = "nav navbar-nav navbar-right">
                     @yield('nav_items')
+                    <li class = "active">
+                        <a href="/logout"><font size = "4" color="white">log out</font></a>
+                    </li>
                 </ul>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
@@ -42,7 +69,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div-->
 
         <div class="container">
 

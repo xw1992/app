@@ -194,11 +194,11 @@
 				</div>
 
 				<div class="row">
-					{{$userTrip->total_due}}
-					{{$userTrip->cost}}
-					{{$userTrip->deposite}}
+					{{$user->userTrip->total_due}}
+					{{$trip->cost}}
+					{{$user->userTrip->deposit}}
 				</div>
-				{{$userTrip->total_due}}<br>
+				{{$user->userTrip->total_due}}<br>
 				{{Form::submit('save')}}
 				</div>
 

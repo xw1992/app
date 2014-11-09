@@ -55,7 +55,17 @@ class AdminController extends BaseController {
 
     public function changeTrip() {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
+        if($userTrip->approved){
+            $userTrip->trip->enroll_no--;
+        }
+        else if($userTrip->waitlisted){
+            $userTrip->trip->waitlist_no--;
+        }
+        $userTrip->trip->save();
         $userTrip->trip_id = Input::get('trip_id');
+        $userTrip->approved = 0;
+        $userTrip->waitlisted = 0;
+        $userTrip->trip_leader = 0;
         $userTrip->save();
         Session::flash("adminSuccess", "{$userTrip->user->fname} successfully changed trips to {$userTrip->trip->name}.");
         return Redirect::to('/manageParticipants');

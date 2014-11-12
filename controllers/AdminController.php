@@ -75,6 +75,11 @@ class AdminController extends BaseController {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
         if ($userTrip->approved) {
             $userTrip->trip->enroll_no--;
+            $userTrip->trip->save();
+        }
+        if ($userTrip->waitlisted) {
+            $userTrip->trip->waitlist_no--;
+            $userTrip->trip->save();
         }
         $userTrip->save();
         $userTrip->delete();
@@ -108,7 +113,7 @@ class AdminController extends BaseController {
 
     public function inputPayment() {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $payment = new Payments;
+        $payment = new Payment;
         $payment->user_id = $userTrip->user->id;
         $payment->user_trip_id = $userTrip->id;
         $payment->amount = Input::get(/* amount put in, attribute in front end */);

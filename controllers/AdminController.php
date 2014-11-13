@@ -87,27 +87,13 @@ class AdminController extends BaseController {
         return Redirect::to('/manageParticipants');
     }
 
-    public function grantLeaderAward() {
+    public function grantAward() {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $userTrip->leader_award = 500;
+        $userTrip->scholarship_award = Input::get('scholarship_award');
+        $userTrip->catholic_award = Input::get('catholic_award');
+        $userTrip->leader_award = Input::get('leader_award');
         $userTrip->save();
-        Session::flash("adminSuccess", "{$userTrip->user->fname} has been successfully granted a Leader award.");
-        return Redirect::to('/manageParticipants');
-    }
-
-    public function grantScholarshipAward() {
-        $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $userTrip->scholarship_award = 500;
-        $userTrip->save();
-        Session::flash("adminSuccess", "{$userTrip->user->fname} has been successfully granted a Scholarship award.");
-        return Redirect::to('/manageParticipants');
-    }
-
-    public function grantCatholicAward() {
-        $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $userTrip->catholic_award = 500;
-        $userTrip->save();
-        Session::flash("adminSuccess", "{$userTrip->user->fname} has been successfully granted a Catholic award.");
+        Session::flash("adminSuccess", "{$userTrip->user->fname} has been successfully changed awards.");
         return Redirect::to('/manageParticipants');
     }
 
@@ -116,11 +102,10 @@ class AdminController extends BaseController {
         $payment = new Payment;
         $payment->user_id = $userTrip->user->id;
         $payment->user_trip_id = $userTrip->id;
-        $payment->amount = Input::get(/* amount put in, attribute in front end */);
-        $payment->date = Input::get(/* attribute for date */);
+        $payment->amount = Input::get('amount');
+        $payment->date = Input::get('year', 'month', 'day');
         $payment->save();
         Session::flash("adminSuccess", "{$userTrip->user->fname} has created a payment of {$payment->amount}.");
         return Redirect::to('/manageParticipants');
     }
-
 }

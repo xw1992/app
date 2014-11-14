@@ -4,36 +4,79 @@ class FormController extends BaseController {
 
 	public function displayManageForms() {
     	$trips = Trip::with('tripForm')->get();
-    	$forms = Form::get();
-    	return View::make('manage_forms', compact('users', 'trips', 'forms'));
+        $tripForms = [];
+    	$forms = FormFile::with('tripForm')->get();
+        foreach ($forms as $form) {
+            $fTrips = [];
+            foreach ($form->tripForm as $tripForm) {
+                $fTrips[] = $tripForm->trip_id; 
+            }
+            $tripForms[$form->id] = $fTrips;
+        }
+    	return View::make('manage_forms', compact('trips', 'forms','tripForms'));
     }
 
     public function addNewForm(){
-    	$file = Input::get(/* attribute for file */);
-    	$filename = Input::get(/* attribute for the name of file*/);
-    	Input::file($file)->move('public/forms', $filename);
-    	Session::flash("adminSuccess", "You have successfully uploaded {$filename}.");
-        return Redirect::to('/manageForms');
+        $trips = Trip::get();
 
-        $form = new Form();
+    	$file = Input::file('form');
+    	$filename = Input::get('form_name');
+        $url = public_path().'/forms';
+        $originalName = $file->getClientOriginalName();
+        $array = explode('.', $originalName);
+        $type = $array[count($array)-1];
+    	$file->move($url, $filename.".".$type);
+
+        $form = new FormFile();
         $form->name = $filename;
-        $form->location = 'public/forms';
+        $form->location = "forms/".$filename.".".$type;
+        $form->save();
 
-        foreach(/* checkbox checked */){
-        	$tripForms = new TripForm();
-        	$tripForms->trip_id = /*checkboxed trip id*/;
-        	$tripForms->form_id = $form->id;
+        foreach($trips as $trip){
+            $tripCheck = Input::get("trip".$trip->id);
+            if($tripCheck){
+        	   $tripForms = new TripForm();
+        	   $tripForms->trip_id = $trip->id;
+        	   $tripForms->form_id = $form->id;
+               $tripForms->save();
+            }
         }
+        Session::flash("adminSuccess", "You have successfully uploaded the form: {$filename}.");
+        return Redirect::to('/manageForms');
     }
 
     public function deleteForm(){
-    	$trips = Trip::with('tripForm')->find(Input::get('id');
-    	$forms = Form::get(/* form that has been selected to be deleted */);
-    	foreach($trips as $trip){
-    		$trip->delete();
-    	}
-    	$trips->save();
-    	$forms->delete();
-    	$forms-save();
+    	$formID = FormFile::find(Input::get('id'));
+    	$formID->delete();
+    	Session::flash("adminSuccess", "You have successfully deleted the file.");
+        return Redirect::to('/manageForms');
+    }
+
+    public function editForm(){
+        $form = FormFile::with('tripForm')->find(Input::get('id'));
+        $tripArray = [];
+
+        foreach($form->tripForm as $tForm){
+            $tripCheck = Input::get($tForm->trip_id);
+            if(!$tripCheck){
+                $tForm->delete();
+            }
+            $tripArray[] = $tForm->trip_id;
+        }
+
+        $trips = Trip::all();
+        foreach($trips as $trip){
+            $tripCheck = Input::get('trip'.$trip->id);
+            if($tripCheck){
+                if(!in_array($tripCheck, $tripArray)){
+                    $tripForms = new TripForm();
+                    $tripForms->trip_id = $trip->id;
+                    $tripForms->form_id = $form->id;
+                    $tripForms->save();
+                }
+            }
+        }
+        Session::flash("adminSuccess", "You have successfully edited the existing form-trip association.");
+        return Redirect::to('/manageForms');
     }
 }

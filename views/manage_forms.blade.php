@@ -8,7 +8,8 @@
 </div>
 @endif
 <h4 class="text-center">Manage Forms</h4>
-
+@if($forms)
+@foreach($forms as $form)
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -18,7 +19,7 @@
 		</tr>
 	</thead>
 	<tr>
-		<td>Form Name</td>
+		<td>{{$form->name}}</td>
 		<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#formTripModal">
 			Trips
 		</button>
@@ -34,27 +35,65 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="formTripModalLabel">Manage the trips using this form: $form->name}}</h4>
+				<h4 class="modal-title" id="formTripModalLabel">The following trips have this form: {{$form->name}}</h4>
 			</div>
 			
 			<div class="modal-body">
+				{{Form::open(array("url" => "/editForm"))}}
+				{{Form::hidden("id", $form->id)}}
 				@foreach($trips as $trip)
-				<div class="col-xs-6">
+				<div class="row">
+				<div class="col-xs-6 col-sm-3">
 					{{$trip->name}}
 				</div>
-				<div class="col-xs-6">
-					{{Form::checkbox('formTrip', 0)}}
+				<div class="col-xs-6 col-sm-3">
+					{{Form::checkbox('trip'.$trip->id, 1, in_array($trip->id, $tripForms[$form->id]))}}
 				</div>
-
-				@endforeach              
+			</div>
+				@endforeach             
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<button type="submit" class="btn btn-info">Save changes</button>
+				</form> 
 			</div>
 		</div>
 	</div>
 </div>
+
+
+<div class="modal fade" id="deleteFormModal" tabindex="-1" role="dialog" aria-labelledby="deleteFormModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="deleteFormModalLabel">Delete Form</h4>
+			</div>
+			<div class="modal-body">
+				{{Form::open(array("url" => "/deleteForm"))}}
+				{{Form::hidden("id", $form->id)}}
+				<h3>Are you sure you want to delete this form?</h3>
+				<h4>Form name: {{$form->name}}</h4>
+					<button type="submit" class="btn btn-default">Yes, delete</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+@endforeach
+</table>
+@else
+<h1 class="text-center">No form has been added to the database.</h1>
+@endif
+<hr>
+
+<center>
+	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newFormModal">
+		 Add new Form
+	</button>
+</center>
 
 <div class="modal fade" id="newFormModal" tabindex="-1" role="dialog" aria-labelledby="newFormModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -65,23 +104,22 @@
 			</div>
 			<div class="modal-body">
 				<div class="col-md-6">
-					<form>
+					{{ Form::Open(array('files'=>true, "url" => "/addNewForm"))}}
 						<h5>Name:</h5>
 						{{Form::text('form_name')}}<br><br>
 						<h5>Select a file from your computer:</h5>
-						{{Form::file('image')}}
+						{{Form::file('form')}}
 
-					</form>
+				
 				</div>
 				<div class="col-md-6">
 					<div class="row">
 						<h5>Which trips would you like to add this form to?</h5>
-						<form>
-							@foreach{{$trips as $trip}}
+							@foreach($trips as $trip)
 							{{$trip->name}}
-							{{Form::checkbox('formTrip')}}
+							{{Form::checkbox('trip'.$trip->id)}}
 							@endforeach
-						</form>
+						
 
 					</div>
 				</div>
@@ -90,38 +128,11 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<button type="submit" class="btn btn-info">Save changes</button>
+			</form>
 			</div>
 		</div>
 	</div>
 </div>
-
-<div class="modal fade" id="deleteFormModal" tabindex="-1" role="dialog" aria-labelledby="deleteFormModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="deleteFormModalLabel">Delete Form</h4>
-			</div>
-			<div class="modal-body">
-				<h5>{{$form->name}}</h5>
-				<form>
-					<h5>Are you sure you want to delete this form?</h5>
-					<button type="submit" class="btn btn-default">Yes, delete</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				</form>
-
-			</div>
-		</div>
-	</div>
-</div>
-
-
-</table>
-<center>
-	<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteFormModal">
-		Add Form
-	</button>
-</center>
 
 
 @stop

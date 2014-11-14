@@ -45,7 +45,7 @@
                             </li>
                             <li><a href="#">Manage Trips</a>
                             </li>
-                            <li><a href="#">Manage Forms</a>
+                            <li><a href="/manageForms">Manage Forms</a>
                             </li>
                         </ul>
                     </div>

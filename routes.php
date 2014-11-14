@@ -42,13 +42,17 @@ Route::group(['before' => 'admin'], function() {
 
     Route::post('/removeFromTrip', 'AdminController@removeFromTrip');
 
-    Route::post('/grantLeaderAward', 'AdminController@grantLeaderAward');
-
-    Route::post('/grantScholarshipAward', 'AdminController@grantScholarshipAward');
-
-    Route::post('/grantCatholicAward', 'AdminController@grantCatholicAward');
+    Route::post('/grantAward', 'AdminController@grantAward');
 
     Route::post('/inputPayment', 'AdminController@inputPayment');
+
+    Route::get('/manageForms', 'FormController@displayManageForms');
+
+    Route::post('/addNewForm', 'FormController@addNewForm');
+
+    Route::post('/deleteForm', 'FormController@deleteForm');
+
+    Route::post('/editForm', 'FormController@editForm');
 });
 
 Route::group(['before' => 'guest'], function() {

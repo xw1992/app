@@ -6,6 +6,11 @@
  * and open the template in the editor.
  */
 
-class Form extends Eloquent{ 
-    
+class FormFile extends Eloquent{ 
+    protected $table = 'forms';
+
+    public function tripForm() {
+        return $this->hasMany('TripForm','form_id');
+    }
+
 }

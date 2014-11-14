@@ -198,17 +198,17 @@
 						</div>
 					</div>
 
-					Cost of Trip: $trips->cost}}<br>
-					Amount Awarded: $trip_users->leader_award + $trip_users->scholarship_award = $trip_users->catholic_award}}<br>
-					Amount Paid: $trip_users->deposit}}<br>
-					Amount Due: $trip_users->total_due}}<br>
+					Cost of Trip: {{$trips->cost}}<br>
+					Amount Awarded: {{$trip_users->leader_award + $trip_users->scholarship_award = $trip_users->catholic_award}}<br>
+					Amount Paid: {{$trip_users->deposit}}<br>
+					Amount Due: {{$trip_users->total_due}}<br>
 					{{Form::submit('save')}}
 				</form>
 
 				</div>
 
 				<h4>Submit a payment for this participant</h4>
-<<<<<<< Updated upstream
+
 				<div class="panel"
 				Payment Amount:<br>
 				<Input type="number" name="amount">
@@ -219,7 +219,7 @@
 				{{Form::selectRange('year', 2014, 2024)}}
 			</div>
 			{{Form::submit('submit payment')}}
-=======
+
 				<div class="col-xs-6">
 
 					<h4>Submit a payment for this participant</h4>
@@ -238,7 +238,7 @@
 						</form>
 					
 				</div>
->>>>>>> Stashed changes
+
 
 			</div>
 		</div>

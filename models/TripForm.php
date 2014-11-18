@@ -7,7 +7,6 @@
  */
 
 class TripForm extends Eloquent{ 
-	
 	protected $table = 'trip_forms';
 
     public function tripForm() {

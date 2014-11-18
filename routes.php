@@ -53,6 +53,14 @@ Route::group(['before' => 'admin'], function() {
     Route::post('/deleteForm', 'FormController@deleteForm');
 
     Route::post('/editForm', 'FormController@editForm');
+
+    Route::get('/manageTrips', 'TripController@displayManageTrips');
+
+    Route::post('/createTrip', 'TripController@createTrip');
+
+    Route::post('/deleteTrip', 'TripController@deleteTrip');
+
+    Route::post('/changeTripStatus', 'TripController@changeTripStatus');
 });
 
 Route::group(['before' => 'guest'], function() {

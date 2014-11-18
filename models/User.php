@@ -62,5 +62,4 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function userTrip() {
         return $this->hasOne('UserTrip');
     }
-
 }

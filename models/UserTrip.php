@@ -7,7 +7,6 @@
  */
 
 class UserTrip extends Eloquent {
-
     protected $table = 'trip_users';
 
     public function user() {

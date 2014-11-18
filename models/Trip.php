@@ -7,7 +7,6 @@
  */
 
 class Trip extends Eloquent{ 
-
     public function tripForm(){
     	return $this->hasMany('TripForm');
     }

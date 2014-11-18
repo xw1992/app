@@ -7,7 +7,6 @@
  */
 
 class UserInfo extends Eloquent {
-
     protected $table = 'user_infos';
 
     public static $rules = [
@@ -25,5 +24,4 @@ class UserInfo extends Eloquent {
         Session::flash('formError', $validation->messages()->all());
         return false;
     }
-
 }

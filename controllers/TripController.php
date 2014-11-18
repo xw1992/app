@@ -28,4 +28,48 @@ class TripController extends BaseController {
         return Redirect::to('/');
     }
 
+    public function displayManageTrips(){
+        $trips = Trip::get();
+        return View::make('manage_trips', compact('trips', ));
+    }
+
+    public function changeTripStatus(){
+        $trip = Trip::find(Input::get('id'));
+        if($trip->open){
+            $trip->open = 0;
+            $trip->save();
+            Session::flash("adminSuccess", "You have successfully closed the trip: {$name}.");
+            return Redirect::to('/manageTrips');
+        }
+        else{
+            $trip->open = 1;
+            $trip->save();
+            Session::flash("adminSuccess", "You have successfully opened the trip: {$name}.");
+            return Redirect::to('/manageTrips');
+        }
+    }
+
+    public function createTrip(){
+        $trip = new Trip();
+        $trip->name = Input::get('name');
+        $trip->international = Input::get('international');
+        $trip->open = Input::get('open');
+        $trip->enroll_no = Input::get('enroll_no');
+        $trip->capacity = Input::get('capacity');
+        $trip->waitlist_no = Input::get('waitlist_no');
+        $trip->cost = Input::get('cost');
+        $trip->first_due_day = Input::get('first_due_day');
+        $trip->second_due_day = Input::get('second_due_day');
+        $trip->begin_date = Input::get('begin_date');
+        $trip->end_date = Input::get('end_date');
+        Session::flash("adminSuccess", "You have successfully created the trip: {$name}.");
+        return Redirect::to('/manageTrips');
+    }
+
+    public function deleteTrip(){
+        $trip = Trip::find(Input::get('id'));
+        $trip->delete();
+        Session::flash("adminSuccess", "You have successfully deleted the trip.");
+        return Redirect::to('/manageTrips');
+    }
 }

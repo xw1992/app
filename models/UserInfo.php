@@ -8,6 +8,8 @@
 
 class UserInfo extends Eloquent {
 
+    protected $table = 'user_infos';
+
     public static $rules = [
         'passport_no' => 'required',
         'reason' => 'required',
@@ -20,7 +22,7 @@ class UserInfo extends Eloquent {
         if ($validation->passes()) {
             return true;
         }
-        Session::flash('formError', $validation->all());
+        Session::flash('formError', $validation->messages()->all());
         return false;
     }
 

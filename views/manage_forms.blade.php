@@ -7,8 +7,8 @@
 	{{Session::get('adminSuccess')}}
 </div>
 @endif
-<h4 class="text-center">Manage Forms</h4>
-@if($forms)
+<h1 class="text-center">Manage Forms</h1>
+@if(!$forms->isEmpty())
 @foreach($forms as $form)
 <table class="table table-hover">
 	<thead>
@@ -85,7 +85,7 @@
 @endforeach
 </table>
 @else
-<h1 class="text-center">No form has been added to the database.</h1>
+<h2 class="text-center">No form has been added to the database.</h2>
 @endif
 <hr>
 

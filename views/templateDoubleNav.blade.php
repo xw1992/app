@@ -30,8 +30,8 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li><a href="/manageParticipants">participants</a></li>
-              <li><a href="#">forms</a></li>
-              <li><a href="#">trips</a></li>
+              <li><a href="/manageForms">forms</a></li>
+              <li><a href="/manageTrips">trips</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="/logout">Logout</a></li>
@@ -77,6 +77,7 @@
 
 
         </div>
+        <hr>
 
         <div class="footer">
             <div class="container">

@@ -7,5 +7,5 @@
  */
 
 class Payment extends Eloquent{ 
-    
+    protected $table = 'payment_histories';
 }

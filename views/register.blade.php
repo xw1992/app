@@ -29,7 +29,7 @@
                 </ul>
             </div>
             @endif
-            <form role="form" class = "form" action="/signup" method="post">
+            {{Form::open(['url'=>'/signup','class'=>'form'])}}
                 <div class ="row">
                     <div class = "col-md-4 col-sm-6 col-md-6">
                         <font color="ef6464">* = Required</font>

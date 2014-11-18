@@ -198,10 +198,10 @@
 						</div>
 					</div>
 
-					Cost of Trip: {{$trips->cost}}<br>
-					Amount Awarded: {{$trip_users->leader_award + $trip_users->scholarship_award = $trip_users->catholic_award}}<br>
-					Amount Paid: {{$trip_users->deposit}}<br>
-					Amount Due: {{$trip_users->total_due}}<br>
+					Cost of Trip: {{$trip->cost}}<br>
+					Amount Awarded: {{$user ->userTrip->leader_award + $user->userTrip->scholarship_award = $user->userTrip->catholic_award}}<br>
+					Amount Paid: {{$user->userTrip->deposit}}<br>
+					Amount Due: {{$user->userTrip->total_due}}<br>
 					{{Form::submit('save')}}
 				</form>
 

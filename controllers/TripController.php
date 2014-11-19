@@ -115,4 +115,20 @@ class TripController extends BaseController {
         return Redirect::to('/manageTrips');
     }
 
+    public function changeTripType(){
+        $trip = Trip::find(Input::get('trip_id'));
+        if($trip->international){
+            $trip->international = 0;
+            $trip->save();
+            Session::flash("adminSuccess", "You have successfully made {$trip->name} domestic.");
+            return Redirect::to('/manageTrips');
+        }
+        else{
+            $trip->international = 1;
+            $trip->save();
+            Session::flash("adminSuccess", "You have successfully made {$trip->name} international.");
+            return Redirect::to('/manageTrips');
+        }
+    }
+
 }

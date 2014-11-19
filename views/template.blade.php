@@ -23,7 +23,9 @@
                     <a class="navbar-brand" href="#">Immersion Project Management System</a>
                 </div>
                 <ul class = "nav navbar-nav pull-right">
-                    @yield('nav_items')
+                    <li class = "active">
+                        <a href="/"><font size = "4" color="white">log in</font></a>
+                    </li>
 
 
                 </ul>

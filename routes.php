@@ -61,6 +61,16 @@ Route::group(['before' => 'admin'], function() {
     Route::post('/deleteTrip', 'TripController@deleteTrip');
 
     Route::post('/changeTripStatus', 'TripController@changeTripStatus');
+
+    Route::post('/changeTripName', 'TripController@changeName');
+
+    Route::post('/editTripDates', 'TripController@editTripDate');
+
+    Route::post('/editTripCost', 'TripController@editFinances');
+
+    Route::post('/changeCapacity', 'TripController@changeCapacity');
+
+    Route::post('/changeTripType', 'TripController@changeTripType');
 });
 
 Route::group(['before' => 'guest'], function() {

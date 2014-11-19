@@ -33,9 +33,14 @@
               <li><a href="/manageForms">forms</a></li>
               <li><a href="/manageTrips">trips</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="/logout">Logout</a></li>
-            </ul>
+            <ul class = "nav navbar-nav pull-right">          
+                    <li>
+                        <a>{{Auth::user()->fname.' '.Auth::user()->lname}}</a>
+                    </li>
+                     <li>
+                        <a href="/logout">Logout</a>
+                    </li>
+                </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>

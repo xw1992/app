@@ -23,10 +23,19 @@
                     <a class="navbar-brand" href="#">Immersion Project Management System</a>
                 </div>
                 <ul class = "nav navbar-nav pull-right">
-                    <li class = "active">
-                        <a href="/"><font size = "4" color="white">log in</font></a>
+                    @if(Auth::check())
+                    <li>
+                        <a href="/">{{Auth::user()->fname.' '.Auth::user()->lname}}</a>
+                    </li>
+                     <li>
+                        <a href="/logout">Logout</a>
+                    </li>
+                    @else
+                    <li>
+                        <a href="/register">New User</a>
                     </li>
 
+                    @endif
 
                 </ul>
                 <div class="collapse navbar-collapse">

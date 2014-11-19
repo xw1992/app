@@ -30,7 +30,7 @@ class TripController extends BaseController {
 
     public function displayManageTrips(){
         $trips = Trip::get();
-        return View::make('manage_trips', compact('trips', ));
+        return View::make('manage_trips', compact('trips'));
     }
 
     public function changeTripStatus(){
@@ -53,15 +53,16 @@ class TripController extends BaseController {
         $trip = new Trip();
         $trip->name = Input::get('name');
         $trip->international = Input::get('international');
-        $trip->open = Input::get('open');
-        $trip->enroll_no = Input::get('enroll_no');
+        $trip->open = 1;
+        $trip->enroll_no = 0;
         $trip->capacity = Input::get('capacity');
-        $trip->waitlist_no = Input::get('waitlist_no');
+        $trip->waitlist_no = 0;
         $trip->cost = Input::get('cost');
         $trip->first_due_day = Input::get('first_due_day');
         $trip->second_due_day = Input::get('second_due_day');
         $trip->begin_date = Input::get('begin_date');
         $trip->end_date = Input::get('end_date');
+        $trip->save();
         Session::flash("adminSuccess", "You have successfully created {$trip->name}.");
         return Redirect::to('/manageTrips');
     }
@@ -75,25 +76,18 @@ class TripController extends BaseController {
 
     public function changeName(){
         $trip = Trip::find(Input::get('trip_id'));
-        $trip->name = Input::get('name');
-        $trip-save();
+        $trip->name = Input::get('trip_name');
+        $trip->save();
         Session::flash("adminSuccess", "You have successfully change the trip name to {$trip->name}.");
         return Redirect::to('/manageTrips');
     }
 
-    public function changeStartDate(){
+    public function editTripDate(){
         $trip = Trip::find(Input::get('trip_id'));
         $trip->begin_date = Input::get('begin_date');
-        $trip-save();
-        Session::flash("adminSuccess", "You have successfully changed the start date of {$trip->name} to {$trip->begin_date}.");
-        return Redirect::to('/manageTrips');
-    }
-
-        public function changeEndDate(){
-        $trip = Trip::find(Input::get('trip_id'));
         $trip->end_date = Input::get('end_date');
-        $trip-save();
-        Session::flash("adminSuccess", "You have successfully changed the finish date of {$trip->name} to {$trip->end_date}.");
+        $trip->save();
+        Session::flash("adminSuccess", "You have successfully changed the start and end dates of {$trip->name} to {$trip->begin_date}.");
         return Redirect::to('/manageTrips');
     }
 
@@ -102,7 +96,7 @@ class TripController extends BaseController {
         $trip->cost = Input::get('cost');
         $trip->first_due_day = Input::get('first');
         $trip->second_due_day = Input::get('second');
-        $trip-save();
+        $trip->save();
         Session::flash("adminSuccess", "You have successfully updated the finances for {$trip->name}.");
         return Redirect::to('/manageTrips');
     }
@@ -110,7 +104,7 @@ class TripController extends BaseController {
     public function changeCapacity(){
         $trip = Trip::find(Input::get('trip_id'));
         $trip->capacity = Input::get('capacity');
-        $trip-save();
+        $trip->save();
         Session::flash("adminSuccess", "You have successfully changed the capacity of {$trip->name} to {$trip->capacity}.");
         return Redirect::to('/manageTrips');
     }
@@ -130,5 +124,4 @@ class TripController extends BaseController {
             return Redirect::to('/manageTrips');
         }
     }
-
 }

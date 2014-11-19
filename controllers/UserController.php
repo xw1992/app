@@ -23,7 +23,8 @@ class UserController extends BaseController {
                         $trip = $userTrip->trip;
                         return View::make('info_form', compact('trip'));
                     } else {
-                        return View::make('dashboard');
+                        $tripForms = TripForm::with('form')->where('trip_id', '=', $userTrip->trip_id)->get();
+                        return View::make('dashboard', compact('userTrip', 'tripForms'));
                     }
                 } else {
                     return View::make('awaiting_approval', compact('userTrip'));

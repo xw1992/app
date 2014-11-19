@@ -20,8 +20,8 @@ class UserController extends BaseController {
                 } else if ($userTrip->approved) {
                     $infoCheck = UserInfo::where('user_id', '=', Auth::user()->id)->first();
                     if (!$infoCheck) {
-                        $international = $userTrip->trip->international;
-                        return View::make('info_form', compact('international'));
+                        $trip = $userTrip->trip;
+                        return View::make('info_form', compact('trip'));
                     } else {
                         return View::make('dashboard');
                     }
@@ -99,6 +99,7 @@ class UserController extends BaseController {
         $userInfo->allergy_medical_conditions = Input::get('medical');
         $userInfo->relevant_experience_interest = Input::get('reason');
         $userInfo->bio = Input::get('autobiography');
+        $userInfo->trip_id = Input::get('trip_id');
 
         $userInfo->save();
 

@@ -19,12 +19,13 @@
         </div>
         <div class="panel-body">
             {{Form::open(['url'=>'/saveInfo', 'method'=>'post','class'=>'form'])}}
+            {{Form::hidden('trip_id', $trip->id)}}
 
             Please fill out the following participant information.  This information
             will be used by the Project Leader to get to know you better, and by the site
             partner in arranging for your stay
             <br><br>
-            @if(!Auth::user()->passport_no and $international)
+            @if(!Auth::user()->passport_no and $trip->international)
             <div class="row">
                 <div class="col-md-4 col-md-6 col-md-6">
                     <div class="form-group">

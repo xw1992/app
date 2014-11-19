@@ -12,4 +12,8 @@ class TripForm extends Eloquent{
     public function tripForm() {
         return $this->belongsTo('Trip');
     }
+
+    public function form() {
+        return $this->belongsTo('FormFile','form_id','id');
+    }
 }

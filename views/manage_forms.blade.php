@@ -103,6 +103,7 @@
 				<h4 class="modal-title" id="newFormModalLabel">Add a new form</h4>
 			</div>
 			<div class="modal-body">
+				<div class="row">
 				<div class="col-md-6">
 					{{ Form::Open(array('files'=>true, "url" => "/addNewForm"))}}
 						<h5>Name:</h5>
@@ -123,7 +124,7 @@
 
 					</div>
 				</div>
-
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

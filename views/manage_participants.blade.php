@@ -26,7 +26,7 @@
 		@foreach($users as $user)
 		@if($user->userTrip and $trip->id == $user->userTrip->trip_id)
 		<tr>
-			<td>{{$user->student_id}}</td>
+			<td>{{$user->student_id?:'N/A'}}</td>
 			<td> <a href="#"
 				data-toggle="modal"
 				data-target="#studentModal{{$user->id}}">{{$user->fname .' '. $user->lname}}</a>

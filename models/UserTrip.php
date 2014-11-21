@@ -22,6 +22,14 @@ class UserTrip extends Eloquent {
     }
 
     public function payment() {
-        return $this->belongsTo('Payments');
+        return $this->hasMany('Payment');
+    }
+
+    public function userForm() {
+        return $this->hasMany('UserForm');
+    }
+
+    public function tripForm() {
+        return $this->hasManyThrough('TripForm', 'Trip');
     }
 }

@@ -39,7 +39,7 @@
                 <div class="col-md-4 col-md-6 col-md-6">
                     <div class="form-group">
                         <h5>Major field of study or academic interest:</h5>
-                        <input type="text" name="major" id="major" class="form-control input-md" required>
+                        <input type="text" name="major" id="major" class="form-control input-md">
                     </div>
                 </div>
             </div>

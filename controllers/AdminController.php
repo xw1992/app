@@ -87,25 +87,54 @@ class AdminController extends BaseController {
         return Redirect::to('/manageParticipants');
     }
 
-    public function grantAward() {
-        $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
+    public function editFinances(){
+        $userTrip = UserTrip::with('user', 'trip', 'payment')->find(Input::get('id'));
+        $userTrip->deposit = Input::get('deposit');
         $userTrip->scholarship_award = Input::get('scholarship_award');
         $userTrip->catholic_award = Input::get('catholic_award');
         $userTrip->leader_award = Input::get('leader_award');
-        $userTrip->save();
-        Session::flash("adminSuccess", "{$userTrip->user->fname} has been successfully changed awards.");
-        return Redirect::to('/manageParticipants');
+        $userTrip->save();  
+
+        $payments = 0;
+        if(/* payment has info */){
+            $inputPament = new Payment();
+            $inputPayment->user_id = $userTrip->user->id;
+            $inputPayment->user_trip_id = $userTrip->id;
+            $inputPayment->amount = Input::get('amount');
+            $inputPayment->date = Input::get('date');
+            $inputPayment->save();
+            $payments = $inputPayment->amount;
+        }   
+
+        foreach($userTrip->payment as $payment){
+            $payments += $payment->amount;
+        }
+
+        return $userTrip->trip->cost - $userTrip->deposit - $usertrip->scholarship_award - $userTrip->catholic_award - $userTrip->leader_award - $payments;
     }
 
-    public function inputPayment() {
-        $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
-        $payment = new Payment;
-        $payment->user_id = $userTrip->user->id;
-        $payment->user_trip_id = $userTrip->id;
-        $payment->amount = Input::get('amount');
-        $payment->date = Input::get('year', 'month', 'day');
-        $payment->save();
-        Session::flash("adminSuccess", "{$userTrip->user->fname} has created a payment of {$payment->amount}.");
-        return Redirect::to('/manageParticipants');
+    public function editStudentForms(){
+        $userTrip = UserTrip::with('trip', 'tripForm')->find(Input::get('id'));
+        $userForms = UserForm::where('user_id', '=', $userTrip->user_id)->get;
+        $userFormArray = [];
+        foreach($userForms as $userForm){
+            $userFormArray[$userForm->form_id] = $userForm;
+        }
+        foreach($userTrip->tripForm as $tripForm){
+            if(/* checkbox is ticked */){
+                if(!array_key_exists($tripForm->form_id, $userFormArray)){
+                    $userForm = new UserForm();
+                    $userForm->user_id = $userTrip->user_id;
+                    $userForm->form_id = $tripForm->form_id;
+                    $userForm->save();
+                }  
+            }
+            else{
+                if(array_key_exists($tripForm->form_id, $userFormArray)){
+                   $userFormArray[$tripForm->form_id]->delete();
+                }
+            }
+        }
+        return 1;
     }
 }

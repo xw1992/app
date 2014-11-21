@@ -42,9 +42,7 @@ Route::group(['before' => 'admin'], function() {
 
     Route::post('/removeFromTrip', 'AdminController@removeFromTrip');
 
-    Route::post('/grantAward', 'AdminController@grantAward');
-
-    Route::post('/inputPayment', 'AdminController@inputPayment');
+    Route::post('/editFinances', 'AdminController@editFinances');
 
     Route::get('/manageForms', 'FormController@displayManageForms');
 
@@ -71,6 +69,8 @@ Route::group(['before' => 'admin'], function() {
     Route::post('/changeCapacity', 'TripController@changeCapacity');
 
     Route::post('/changeTripType', 'TripController@changeTripType');
+
+    Route::post('/editStudentForms', 'AdminController@editStudentForms');
 });
 
 Route::group(['before' => 'guest'], function() {

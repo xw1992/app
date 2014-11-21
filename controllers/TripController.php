@@ -52,7 +52,7 @@ class TripController extends BaseController {
     public function createTrip(){
         $trip = new Trip();
         $trip->name = Input::get('name');
-        $trip->international = Input::get('international');
+        $trip->international = Input::get('international') ? 1 : 0;
         $trip->open = 1;
         $trip->enroll_no = 0;
         $trip->capacity = Input::get('capacity');

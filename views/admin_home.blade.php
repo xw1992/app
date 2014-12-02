@@ -25,7 +25,7 @@
                             @foreach($userTrips as $userTrip)
                             <tr>
                                 <td> {{$userTrip->user->student_id }}</td>
-                                <td>{{ $userTrip->user->fname }}</td>
+                                <td>{{ $userTrip->user->fname.' '.$userTrip->user->lname }}</td>
                                 <td>{{$userTrip->trip->name }}</td>
                                 <td>{{$userTrip->trip->capacity-$userTrip->trip->enroll_no}}</td>
                                 <td class="text-center">

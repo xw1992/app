@@ -313,7 +313,9 @@
 						<h4>Start Date:</h4>
 						{{Form::text('begin_date')}}
 						<h4>End Date:</h4>
-						{{Form::text('end_date')}}						
+						{{Form::text('end_date')}}
+						<h4>Term:</h4>
+						{{Form::text('term')}}						
 						<h4>International</h4>
 						{{Form::checkbox('international')}}
 					</div>

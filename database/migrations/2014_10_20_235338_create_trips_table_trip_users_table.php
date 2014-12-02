@@ -18,7 +18,7 @@ class CreateTripsTableTripUsersTable extends Migration {
             $table->boolean('international');
             $table->boolean('open');
             // format example: "spring break 2014" 
-            $table->string('time');
+            $table->string('term');
             $table->smallInteger('enroll_no');
             $table->smallInteger('capacity');
             $table->smallInteger('waitlist_no');

@@ -10,7 +10,7 @@ class AdminController extends BaseController {
 
     public function displayManageParticipants() {
         $users = User::with('userTrip')->get();
-        $trips = Trip::get();
+        $trips = Trip::with('tripForm.form')->get();
         return View::make('manage_participants', compact('users', 'trips'));
     }
 
@@ -87,6 +87,7 @@ class AdminController extends BaseController {
         return Redirect::to('/manageParticipants');
     }
 
+    /*
     public function editFinances(){
         $userTrip = UserTrip::with('user', 'trip', 'payment')->find(Input::get('id'));
         $userTrip->deposit = Input::get('deposit');
@@ -96,7 +97,7 @@ class AdminController extends BaseController {
         $userTrip->save();  
 
         $payments = 0;
-        if(/* payment has info */){
+        if( payment has info ){
             $inputPament = new Payment();
             $inputPayment->user_id = $userTrip->user->id;
             $inputPayment->user_trip_id = $userTrip->id;
@@ -112,7 +113,8 @@ class AdminController extends BaseController {
 
         return $userTrip->trip->cost - $userTrip->deposit - $usertrip->scholarship_award - $userTrip->catholic_award - $userTrip->leader_award - $payments;
     }
-
+    */
+    /*
     public function editStudentForms(){
         $userTrip = UserTrip::with('trip', 'tripForm')->find(Input::get('id'));
         $userForms = UserForm::where('user_id', '=', $userTrip->user_id)->get;
@@ -121,7 +123,7 @@ class AdminController extends BaseController {
             $userFormArray[$userForm->form_id] = $userForm;
         }
         foreach($userTrip->tripForm as $tripForm){
-            if(/* checkbox is ticked */){
+            if( checkbox is ticked ){
                 if(!array_key_exists($tripForm->form_id, $userFormArray)){
                     $userForm = new UserForm();
                     $userForm->user_id = $userTrip->user_id;
@@ -137,4 +139,5 @@ class AdminController extends BaseController {
         }
         return 1;
     }
+    */
 }

@@ -51,7 +51,7 @@
 
 
         </div>
-
+        <hr>
         <div class="footer">
             <div class="container">
                 <p class="text-muted">IPMS</p>

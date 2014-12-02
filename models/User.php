@@ -29,13 +29,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'last_name' => 'required|alpha',
         'dob' => 'required|regex:/^\d{4}\/\d{2}\/\d{2}$/',
         'gender' => 'alpha',
-        'cell' => 'required|regex:/^\d{3}\-\d{3}\-\d{4}$/',
+        'cell' => 'required',
         'campus_address' => 'required',
         'passport' => 'alpha_num',
         'passport_country' => 'alpha_dash',
         'emergency_name' => 'required|alpha',
         'emergency_street' => 'required',
-        'emergency_phone' => 'required|regex:/^\d{3}\-\d{3}\-\d{4}$/',
+        'emergency_phone' => 'required',
         'id_number' => 'numeric',
         'class' => 'numeric',
         'campus_box' => 'numeric',
@@ -45,8 +45,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     ];
     public static $messages = [
         'dob.regex' => 'Your :attribute is not formatted right. Please use format "01/01/2001"',
-        'cell.regex' => 'Your :attribute is not formatted right. Please use format "123-456-7890"',
-        'emergency_phone.regex' => 'Your :attribute is not formatted right. Please use format "123-456-7890"',
     ];
 
     public static function isValid($data) {

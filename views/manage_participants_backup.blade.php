@@ -99,18 +99,18 @@
 				{{ Form::open(array('url' => '/approveApplicant', 'method' => 'post')) }}
 				{{Form::hidden("id", $user->userTrip->id)}}
 				<button type="submit" class="btn btn-success btn-sm">Approve</button>
-			</form>
+				{{Form::close()}}
 			@endif
 			@if(!$user->userTrip->approved and !$user->userTrip->waitlisted)
 			{{ Form::open(array('url' => '/waitlistApplicant', 'method' => 'post')) }}
 			{{Form::hidden("id", $user->userTrip->id)}}
 			<button type="submit" class="btn btn-warning btn-sm">Waitlist</button>
-		</form>
+			{{Form::close()}}
 		@endif
 		{{ Form::open(array('url' => '/removeFromTrip', 'method' => 'post')) }}
 		{{Form::hidden("id", $user->userTrip->id)}}
 		<button type="submit" class="btn btn-danger btn-sm">Remove from trip</button>
-	</form>                          
+		{{Form::close()}}                          
 </div>
 </div>
 </div>

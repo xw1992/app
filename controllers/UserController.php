@@ -10,7 +10,7 @@ class UserController extends BaseController {
 
             return View::make('admin_home', compact('userTrips'));
         } else {
-            $userTrip = UserTrip::where('user_id', '=', Auth::user()->id)->first();
+            $userTrip = UserTrip::with('trip')->where('user_id', '=', Auth::user()->id)->first();
             if (!$userTrip) {
                 $trips = Trip::where('open', '=', 1)->get();
                 return View::make('select_trip', compact('trips'));
@@ -24,7 +24,14 @@ class UserController extends BaseController {
                         return View::make('info_form', compact('trip'));
                     } else {
                         $tripForms = TripForm::with('form')->where('trip_id', '=', $userTrip->trip_id)->get();
-                        return View::make('dashboard', compact('userTrip', 'tripForms'));
+                        $user = Auth::user();
+                        $users = User::all();
+                        $payments = Payment::where('user_id', '=', $user->id)->where('user_trip_id', '=', $userTrip->id)->get();
+                        $totalAmount = 0;
+                        foreach($payments as $payment){
+                            $totalAmount += $payment->amount;
+                        }
+                        return View::make('dashboard', compact('users','user','userTrip', 'tripForms', 'payments', 'totalAmount'));
                     }
                 } else {
                     return View::make('awaiting_approval', compact('userTrip'));
@@ -88,11 +95,11 @@ class UserController extends BaseController {
         if (!UserInfo::isValid(Input::all())) {
             return Redirect::to('/')->withInput();
         }
-
+        $user = Auth::user();
         $userInfo = new UserInfo();
         $userInfo->user_id = Auth::user()->id;
         $userInfo->major_academic_interest = Input::get('major');
-        $userInfo->passport_no = Input::get('passport_no');
+        $user->passport_no = Input::get('passport_no');
         $userInfo->hometown_state = Input::get('hometown_state');
         $userInfo->dietary_allergies_access_needs = Input::get('dietary_needs');
         $userInfo->foreign_languages = Input::get('languages');
@@ -103,10 +110,15 @@ class UserController extends BaseController {
         $userInfo->trip_id = Input::get('trip_id');
 
         $userInfo->save();
+        $user->save();
 
         Session::flash('userSuccess', 'You have successfully filled out your user information sheet.');
 
         return Redirect::to('/');
     }
+
+    // public function editMyInfo(){
+    //     $userInfo = User::with('userInfo')->find
+    // }
 
 }

@@ -2,13 +2,19 @@
 
 @stop
 @section('content')    
-<h4>Student Information: $user->fname . $user->lname}}</h4><br><br>
-{{Form::open(array('url' => ' '))}}
+<h4>Student Information: {{$user->fname .' '. $user->lname}}</h4><br><br>
+{{Form::open(array('url' => '/editStudentInfo'))}}
+{{Form::hidden("id", $user->id)}}
+                        @if(Session::has('adminSuccess'))
+                        <div class="alert alert-success" role="alert">
+                            {{Session::get('adminSuccess')}}
+                        </div>
+                        @endif
 <div class="row">
 	<div class="col-xs-4 col-xs-4 col-xs-4">
 		<div class="form-group">
 			<h5>First Name:</h5>
-			{{Form::text('fname', $user->fname)}}
+			{{Form::text('fname', $user->fname, ["class" => "form-control"])}}
 		</div>
 	</div>
 	<div class="col-xs-4 col-xs-4 col-xs-4">
@@ -109,33 +115,33 @@
 <div class="row">
 	<div class="col-sm-4 col-xs-4 col-sm-4">
 		<h5>Academic Interest:</h5>
-		{{Form::text('major_academic_interest', $user->userInfo->major_academic_interest)}}
+		{{Form::text('major_academic_interest', $userInfo->major_academic_interest)}}
 	</div>
 	<div class="col-sm-4 col-xs-4 col-sm-4">
 		<h5>Hometown State:</h5>
-		{{Form::text('hometown_state', $user->userInfo->hometown_state)}}
+		{{Form::text('hometown_state', $userInfo->hometown_state)}}
 	</div>
 	<div class="col-sm-4 col-xs-4 col-sm-4">
 		<h5>Smoker:</h5>
-		{{Form::checkbox('smoke')}}
+		{{Form::checkbox('smoke', 1, $userInfo->smoke)}}
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-4 col-md-4 col-md-4">
 		<h5>Allergies or Medical Conditions:</h5>
-		{{Form::textarea('allergy_medical_conditions', $user->userInfo->allergy_medical_conditions)}}
+		{{Form::textarea('allergy_medical_conditions', $userInfo->allergy_medical_conditions)}}
 	</div>
 	<div class="col-md-4 col-md-4 col-md-4">
 	</div>
 	<div class="col-md-4 col-md-4 col-md-4">
-		<h5>Relevent Experience / Interests</h5>
-		{{Form::textarea('relevent_experience_interest', $user->userInfo->relevent_experience_interest)}}
+		<h5>Relevant Experience / Interests</h5>
+		{{Form::textarea('relevant_experience_interest', $userInfo->relevant_experience_interest)}}
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-6 col-md-6">
 		<h5>Biography</h5>
-		{{Form::textarea('bio', $user->userInfo->bio)}}
+		{{Form::textarea('bio', $userInfo->bio)}}
 	</div>
 </div>
 <br>

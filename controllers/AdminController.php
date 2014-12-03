@@ -87,6 +87,17 @@ class AdminController extends BaseController {
         return Redirect::to('/manageParticipants');
     }
 
+    public function displayStudentInfo($user_id){
+        $user = User::find($user_id);
+        if($user){
+            $userInfo = UserInfo::find($user_id);
+            return View::make('/student_info', compact('userInfo', 'user'));
+        }
+        else{
+            return Redirect::to('/');
+        }
+    }
+
     /*
     public function editFinances(){
         $userTrip = UserTrip::with('user', 'trip', 'payment')->find(Input::get('id'));
@@ -140,4 +151,38 @@ class AdminController extends BaseController {
         return 1;
     }
     */
+
+    public function editStudentInfo(){
+        $user = User::with('userInfo')->find(Input::get('id'));
+
+        $user->fname = Input::get('fname');
+        $user->mname = Input::get('mname');
+        $user->lname = Input::get('lname');
+        $user->dob = Input::get('dob');
+        $user->gender = Input::get('gender');
+        $user->country = Input::get('country');
+        $user->passport_no = Input::get('passport_no');
+        $user->address = Input::get('address');
+        $user->phone_no = Input::get('phone_no');
+        $user->emergency_contact_name = Input::get('emergency_contact_name');
+        $user->emergency_contact_phone = Input::get('emergency_contact_phone');
+        $user->emergency_contact_address = Input::get('emergency_contact_address');
+        $user->student_id = Input::get('student_id');
+        $user->campus_box = Input::get('campus_box');
+        $user->class_year = Input::get('class_year');
+
+        $user->save();
+
+        $user->userInfo->major_academic_interest = Input::get('major_academic_interest');
+        $user->userInfo->hometown_state = Input::get('hometown_state');   
+        $user->userInfo->smoke = Input::get('smoke');
+        $user->userInfo->allergy_medical_conditions = Input::get('allergy_medical_conditions');
+        $user->userInfo->relevant_experience_interest = Input::get('relevant_experience_interest');
+        $user->userInfo->bio = Input::get('bio');
+
+        $user->userInfo->save();
+
+        Session::flash("adminSuccess", "{$user->fname}'s information has been updated..");
+        return Redirect::to('/info/'.$user->id);
+    }
 }

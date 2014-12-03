@@ -20,6 +20,8 @@ Route::group(['before' => 'auth'], function() {
     Route::post('/saveInfo', 'UserController@saveInfo');
 
     Route::post('/removeFromWaitlist', 'TripController@removeFromWaitlist');
+
+    Route::get('/myInfo', 'UserController@displayMyInfo');
 });
 
 // 'admin' filter is applied to this group
@@ -71,6 +73,10 @@ Route::group(['before' => 'admin'], function() {
     Route::post('/changeTripType', 'TripController@changeTripType');
 
     Route::post('/editStudentForms', 'AdminController@editStudentForms');
+
+    Route::get('/info/{user_id}', 'AdminController@displayStudentInfo');
+
+    Route::post('/editStudentInfo', 'AdminController@editStudentInfo');
 });
 
 Route::group(['before' => 'guest'], function() {

@@ -8,9 +8,9 @@
 
 class UserInfo extends Eloquent {
     protected $table = 'user_infos';
+    protected $primaryKey = 'user_id';
 
     public static $rules = [
-        'passport_no' => 'required',
         'reason' => 'required',
         'autobiography' => 'required'
     ];

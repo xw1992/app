@@ -57,6 +57,7 @@ class TripController extends BaseController {
         $trip->enroll_no = 0;
         $trip->capacity = Input::get('capacity');
         $trip->waitlist_no = 0;
+        $trip->term = Input::get('term');
         $trip->cost = Input::get('cost');
         $trip->first_due_day = Input::get('first_due_day');
         $trip->second_due_day = Input::get('second_due_day');
@@ -72,6 +73,15 @@ class TripController extends BaseController {
         $trip->delete();
         Session::flash("adminSuccess", "You have successfully deleted the trip.");
         return Redirect::to('/manageTrips');
+    }
+
+    public function changeTripTerm(){
+        $trip_id = Input::get('trip_id');
+        $term = Input::get('trip_term');
+        $trip = Trip::find($trip_id);
+        $trip->term = $term;
+        $trip->save();
+        return Redirect::back();
     }
 
     public function changeName(){

@@ -27,7 +27,7 @@
                     <!--input type="email" value="" class="form-control" name = "email" id="exampleInputEmail1" placeholder="Enter email" required="required"-->
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1" class="lead">Password <a href="/sessions/forgot_password">(forgot password)</a></label>
+                    <label for="exampleInputPassword1" class="lead">Password <a href="#">(forgot password)</a></label>
                     <input type="password" class="form-control"  name = "password" id="exampleInputPassword1" placeholder="Password" required="required">
                 </div>
                 <div class="text-center">

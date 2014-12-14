@@ -20,12 +20,12 @@
         <div class="navbar navbar-inverse navbar-static-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Immersion Project Management System</a>
+                    <a class="navbar-brand" href="/">Immersion Project Management System</a>
                 </div>
                 <ul class = "nav navbar-nav pull-right">
                     @if(Auth::check())
                     <li>
-                        <a href="/">{{Auth::user()->fname.' '.Auth::user()->lname}}</a>
+                        <a href="/myInfo">{{Auth::user()->fname.' '.Auth::user()->lname}}</a>
                     </li>
                      <li>
                         <a href="/logout">Logout</a>

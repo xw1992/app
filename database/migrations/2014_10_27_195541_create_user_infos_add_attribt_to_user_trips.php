@@ -17,7 +17,6 @@ class CreateUserInfosAddAttribtToUserTrips extends Migration {
             $table->primary('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('hometown_state');
-            $table->string('passport_no');
             $table->string('major_academic_interest');
             $table->string('dietary_allergies_access_needs')->nullable();
             $table->string('foreign_languages')->nullable();

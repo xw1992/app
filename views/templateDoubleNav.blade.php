@@ -32,6 +32,7 @@
               <li><a href="/manageParticipants">participants</a></li>
               <li><a href="/manageForms">forms</a></li>
               <li><a href="/manageTrips">trips</a></li>
+              <li><a href="/reports">reports</a></li>
             </ul>
             <ul class = "nav navbar-nav pull-right">          
                     <li>

@@ -9,8 +9,14 @@
 class AdminController extends BaseController {
 
     public function displayManageParticipants() {
-        $users = User::with('userTrip')->get();
+        $users = User::with('userTrip','payment','userForm')->get();
         $trips = Trip::with('tripForm.form')->get();
+        /*
+        foreach ($users as $user) {
+            var_dump($user->userForm);
+        }
+        return;
+*/
         return View::make('manage_participants', compact('users', 'trips'));
     }
 
@@ -98,6 +104,44 @@ class AdminController extends BaseController {
         }
     }
 
+    public function saveStudentFinances(){
+        //dd(Input::all());
+        $trip_id = Input::get('trip_id');
+        $userTrips = UserTrip::with('user')->where('trip_id','=',$trip_id)->get();
+        foreach ($userTrips as $userTrip) {
+            $date = Input::get('payment_date'.$userTrip->user_id);
+            if($date){
+                $validation = Validator::make(['date'=>$date], 
+                    ['date' => 'regex:/^\d{4}\/\d{2}\/\d{2}$/']);
+                if(!$validation->passes()){
+                    Session::flash('adminFailure', 'Failed to save: please check the date format(YYYY/MM/DD) is correct.');
+                    return Redirect::to('/manageParticipants');
+                }
+            }
+        }
+        foreach ($userTrips as $userTrip) {
+            $userTrip->deposit = Input::get('deposit'.$userTrip->user_id);
+            $userTrip->leader_award = Input::get('leader_award'.$userTrip->user_id);
+            $userTrip->catholic_award = Input::get('catholic_award'.$userTrip->user_id);
+            $userTrip->scholarship_award = Input::get('scholarship_award'.$userTrip->user_id);  
+            $amount = Input::get('payment_amount'.$userTrip->user_id);
+            $date = Input::get('payment_date'.$userTrip->user_id);
+            if($amount and $date){
+                $payment = new Payment;
+                $payment->user_id = $userTrip->user_id;
+                $payment->user_trip_id = $userTrip->id;
+                $payment->amount = $amount;
+                $payment->date = $date;
+                $payment->save();
+                $userTrip->total_paid += $amount;
+            }
+            $userTrip->save();
+
+        }
+        Session::flash('adminSuccess', 'You have successfully saved the finance information.');
+        return Redirect::to('/manageParticipants');
+    }
+
     /*
     public function editFinances(){
         $userTrip = UserTrip::with('user', 'trip', 'payment')->find(Input::get('id'));
@@ -153,7 +197,8 @@ class AdminController extends BaseController {
     */
 
     public function editStudentInfo(){
-        $user = User::with('userInfo')->find(Input::get('id'));
+        $user = User::find(Input::get('id'));
+        $userInfo = UserInfo::find(Input::get('id'));
 
         $user->fname = Input::get('fname');
         $user->mname = Input::get('mname');
@@ -161,7 +206,7 @@ class AdminController extends BaseController {
         $user->dob = Input::get('dob');
         $user->gender = Input::get('gender');
         $user->country = Input::get('country');
-        $user->passport_no = Input::get('passport_no');
+        $user->passport_no = Crypt::encrypt(Input::get('passport_no'));
         $user->address = Input::get('address');
         $user->phone_no = Input::get('phone_no');
         $user->emergency_contact_name = Input::get('emergency_contact_name');
@@ -173,16 +218,20 @@ class AdminController extends BaseController {
 
         $user->save();
 
-        $user->userInfo->major_academic_interest = Input::get('major_academic_interest');
-        $user->userInfo->hometown_state = Input::get('hometown_state');   
-        $user->userInfo->smoke = Input::get('smoke');
-        $user->userInfo->allergy_medical_conditions = Input::get('allergy_medical_conditions');
-        $user->userInfo->relevant_experience_interest = Input::get('relevant_experience_interest');
-        $user->userInfo->bio = Input::get('bio');
+        if($userInfo){
+            $userInfo->major_academic_interest = Input::get('major_academic_interest');
+            $userInfo->hometown_state = Input::get('hometown_state');   
+            $userInfo->smoke = Input::get('smoke');
+            $userInfo->foreign_languages = Input::get('foreign_languages');
+            $userInfo->dietary_allergies_access_needs = Input::get('dietary_allergies_access_needs');
+            $userInfo->allergy_medical_conditions = Input::get('allergy_medical_conditions');
+            $userInfo->relevant_experience_interest = Input::get('relevant_experience_interest');
+            $userInfo->bio = Input::get('bio');
 
-        $user->userInfo->save();
+            $userInfo->save();
+        }   
 
-        Session::flash("adminSuccess", "{$user->fname}'s information has been updated..");
+        Session::flash("adminSuccess", "{$user->fname}'s information has been updated.");
         return Redirect::to('/info/'.$user->id);
     }
 }

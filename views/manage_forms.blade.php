@@ -117,8 +117,8 @@
 					<div class="row">
 						<h5>Which trips would you like to add this form to?</h5>
 							@foreach($trips as $trip)
-							{{$trip->name}}
 							{{Form::checkbox('trip'.$trip->id)}}
+							{{$trip->name}}
 							@endforeach
 						
 

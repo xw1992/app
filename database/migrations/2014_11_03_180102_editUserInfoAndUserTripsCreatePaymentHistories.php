@@ -22,6 +22,7 @@ class EditUserInfoAndUserTripsCreatePaymentHistories extends Migration {
             $table->decimal('leader_award')->default(0);
             $table->decimal('scholarship_award')->default(0);
             $table->decimal('catholic_award')->default(0);
+            $table->decimal('total_paid')->default(0);
             $table->decimal('total_due')->default(0);
         });
 

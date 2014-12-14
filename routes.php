@@ -5,6 +5,17 @@ Route::when('*', 'csrf', ['post', 'put', 'patch']);
 
 // 'auth' filter is applied to this group
 // only authenticated user will be able access the routes in this group
+/*
+Route::get('encrypt', function(){
+    $users = User::all();
+    foreach ($users as $user) {
+        $user->passport_no = Crypt::encrypt($user->passport_no);
+        $user->save();
+    }
+    return "done";
+});
+*/
+
 Route::group(['before' => 'auth'], function() {
 
     Route::get('/authTest', function() {
@@ -22,6 +33,8 @@ Route::group(['before' => 'auth'], function() {
     Route::post('/removeFromWaitlist', 'TripController@removeFromWaitlist');
 
     Route::get('/myInfo', 'UserController@displayMyInfo');
+
+    Route::post('/editMyInfo', 'UserController@editMyInfo');
 });
 
 // 'admin' filter is applied to this group
@@ -34,7 +47,13 @@ Route::group(['before' => 'admin'], function() {
 
     Route::get('/manageParticipants', 'AdminController@displayManageParticipants');
 
+    Route::get('/reports', 'ReportController@showReports');
+
     Route::post('/waitlistApplicant', 'AdminController@waitlist');
+
+    Route::post('/changeTripTerm', 'TripController@changeTripTerm');
+
+    Route::post('/saveStudentForms', 'FormController@saveStudentForms');
 
     Route::post('/approveApplicant', 'AdminController@approve');
 
@@ -77,6 +96,8 @@ Route::group(['before' => 'admin'], function() {
     Route::get('/info/{user_id}', 'AdminController@displayStudentInfo');
 
     Route::post('/editStudentInfo', 'AdminController@editStudentInfo');
+
+    Route::post('/saveStudentFinances', 'AdminController@saveStudentFinances');
 });
 
 Route::group(['before' => 'guest'], function() {
@@ -85,26 +106,6 @@ Route::group(['before' => 'guest'], function() {
     Route::get('/register', 'UserController@showSignup');
 
     Route::post('/signup', 'UserController@signup');
-});
-
-Route::get('/dev/createAdmin', function() {
-    $exist = User::where('type', '=', 'admin')->first();
-    if (!$exist) {
-        $admin = new User;
-        $admin->email = "admin";
-        $admin->password = Hash::make('Passnimda');
-        $admin->fname = "admin";
-        $admin->lname = "master";
-        $admin->dob = "0000-00-00";
-        $admin->gender = "na";
-        $admin->type = "admin";
-        $admin->address = "";
-        $admin->emergency_contact_name = "";
-        $admin->emergency_contact_phone = "";
-        $admin->emergency_contact_address = "";
-        $admin->save();
-    }
-    return Redirect::to('/');
 });
 
 Route::get('/', 'UserController@home');

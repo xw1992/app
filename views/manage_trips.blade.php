@@ -8,7 +8,7 @@
 
 	@section('content')    
 
-	<h2 class="text-center">Manage Trips<span class="pull-right"><button data-target="#newTripModal" data-toggle="modal" class="btn btn-primary">New Trip</button></span></h2>
+	<h1 class="text-center">Manage Trips<span class="pull-right"><button data-target="#newTripModal" data-toggle="modal" class="btn btn-primary">New Trip</button></span></h1>
 	<hr>
 	<table class="table table-hover">
 		<thead>
@@ -16,6 +16,7 @@
 				<th>Trip Name</th>
 				<th>Status</th>
 				<th>International</th>
+				<th>Term</th>
 				<th>Finances</th>
 				<th>Trip starts</th>
 				<th>Trip ends</th>
@@ -32,6 +33,9 @@
 			</td>
 			<td>
 				<a href="#" data-target="#tripInternationalModal{{$trip->id}}" data-toggle="modal">{{$trip->international?'yes':'no'}}</a>
+			</td>
+			<td>
+				<a href="#" data-target="#tripTermModal{{$trip->id}}" data-toggle="modal">{{$trip->term}}</a>
 			</td>
 			<td>
 				<a href="#" data-target="#tripFinanceModal{{$trip->id}}" data-toggle="modal">Finances</a>
@@ -65,7 +69,7 @@
 					{{Form::open(['url'=>'/editTripCost'])}}
 						{{Form::hidden('trip_id',$trip->id)}}
 						<div class="row">
-						<h4>Cost of the trip: </h4>
+						<h4>Cost of the trip (US dollars): </h4>
 						<div class="col-xs-8 col-xs-offset-2">
 							{{Form::text('cost', $trip->cost,['class'=>'form-control','required'])}}
 						</div></div>
@@ -207,6 +211,32 @@
 			</div>
 		</div>
 
+		<div class="modal fade" id="tripTermModal{{$trip->id}}" tabindex="-1" role="dialog" aria-labelledby="tripWaitlistModalLabel$trip->id}}" aria-hidden="true"> 
+			<div class="modal-dialog">
+				<div class="modal-content text-center"> 
+					<div class="modal-header"> 
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="tripWaitlistModalLabel$trip->id}}">Change trip term</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+						{{Form::open(['url'=>'/changeTripTerm'])}}
+						{{Form::hidden('trip_id',$trip->id)}}
+						<h3>Trip term: </h3>
+						<div class="col-xs-8 col-xs-offset-2">
+						<div class="form-group">
+						{{Form::text('trip_term',$trip->term,['class'=>'form-control','required'])}}
+						</div></div>
+					</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-info">Save changes</button>
+					</div>
+					{{Form::close()}}
+				</div>
+			</div>
+		</div>
+
 		<div class="modal fade" id="tripStatusModal{{$trip->id}}" tabindex="-1" role="dialog" aria-labelledby="tripWaitlistModalLabel$trip->id}}" aria-hidden="true"> 
 			<div class="modal-dialog">
 				<div class="modal-content text-center"> 
@@ -261,7 +291,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<p class="text-left">If you would like to edit form trip association, please click on "forms" on the navigation bar.</p>
+						<p class="text-left">If you wish to edit form-trip association, please click on "forms" on the navigation bar.</p>
 					</div>
 				</div>
 			</div>
@@ -309,25 +339,25 @@
 						<div class="form-group">
 							<div class="col-xs-6">
 						<h4>Trip name: </h4>
-						{{Form::text('name')}}
+						{{Form::text('name','',['class'=>'form-control','required'])}}
 						<h4>Start Date:</h4>
-						{{Form::text('begin_date')}}
+						{{Form::text('begin_date','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
 						<h4>End Date:</h4>
-						{{Form::text('end_date')}}
+						{{Form::text('end_date','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
 						<h4>Term:</h4>
-						{{Form::text('term')}}						
+						{{Form::text('term','',['class'=>'form-control','required','placeholder'=>'eg. Spring 2015'])}}						
 						<h4>International</h4>
 						{{Form::checkbox('international')}}
 					</div>
 					<div class="col-xs-6">
-						<h4>Cost:</h4>
-						{{Form::text('cost')}}
+						<h4>Cost (US dollars):</h4>
+						{{Form::text('cost','',['class'=>'form-control','required'])}}
 						<h4>First Payment Date</h4>
-						{{Form::text('first_due_day')}}
+						{{Form::text('first_due_day','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
 						<h4>Second Payment Date</h4>
-						{{Form::text('second_due_day')}}
+						{{Form::text('second_due_day','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
 						<h4>Capacity</h4>
-						{{Form::text('capacity')}}
+						{{Form::text('capacity','',['class'=>'form-control','required'])}}
 					</div>
 					</div>
 					</div>

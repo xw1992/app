@@ -16,6 +16,40 @@ class FormController extends BaseController {
     	return View::make('manage_forms', compact('trips', 'forms','tripForms'));
     }
 
+    public function saveStudentForms(){
+        $userTrips = UserTrip::where('trip_id','=',Input::get('trip_id'))->get();
+        $forms = FormFile::all();
+        foreach ($userTrips as $userTrip) {
+            $existing_forms = UserForm::where('user_id','=',$userTrip->user_id)->get();
+            foreach ($existing_forms as $existing_form) {
+                if(!Input::get($existing_form->form_id.'form'.$userTrip->user_id)){
+                    $existing_form->delete();
+                }
+            }
+            foreach ($forms as $form) {
+                if(Input::get($form->id.'form'.$userTrip->user_id)){
+                    if(!$this->formExists($existing_forms, $form->id)){
+                        $userForm = new UserForm;
+                        $userForm->user_id = $userTrip->user_id;
+                        $userForm->form_id = $form->id;
+                        $userForm->save();
+                    }    
+                }
+            }
+        }
+        Session::flash('adminSuccess', 'You have successfully saved the participant form information.');
+        return Redirect::back();
+    }
+
+    public function formExists($forms, $form_id){
+        foreach ($forms as $form) {
+            if($form->form_id == $form_id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function addNewForm(){
         $trips = Trip::get();
 

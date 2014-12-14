@@ -1,13 +1,13 @@
-@extends('templateDoubleNav')
+@extends('template')
 
 @stop
 @section('content')    
 <h4>Student Information: {{$user->fname .' '. $user->lname}}</h4><br>
-{{Form::open(array('url' => '/editStudentInfo'))}}
+{{Form::open(array('url' => '/editMyInfo'))}}
 {{Form::hidden("id", $user->id)}}
-@if(Session::has('adminSuccess'))
+@if(Session::has('userSuccess'))
 <div class="alert alert-success" role="alert">
-    {{Session::get('adminSuccess')}}
+    {{Session::get('userSuccess')}}
 </div>
 @endif
 <div class="row">

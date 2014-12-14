@@ -22,10 +22,7 @@
                 <ul>
                     @foreach(Session::get('registerError') as $m)
                     <li>{{$m}}</li>
-
-
                     @endforeach
-
                 </ul>
             </div>
             @endif
@@ -40,19 +37,22 @@
                     <div class="col-md-4 col-sm-6 col-md-6">
                         <div class="form-group">
                             First Name <font color="ef6464">*</font>
-                            <input type="text" name="first_name" id="first_name" class="form-control input-md" placeholder="As it would appear on your passport" name = "first_name" required="required">
+                            <!--input type="text" name="first_name" id="first_name" class="form-control input-md" placeholder="As it would appear on your passport" required="required"-->
+                            {{Form::text('first_name', '', ['class'=>'form-control input-md','placeholder'=>'As it would appear on your passport','required'])}}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-md-6">
                         <div class = "form-group">
                             Middle Name
-                            <input type ="text" name ="middle_name" id="middle_name" class="form-control input-md" placeholder="As it would appear on your passport">
+                            <!--input type ="text" name ="middle_name" id="middle_name" class="form-control input-md" placeholder="As it would appear on your passport"-->
+                            {{Form::text('middle_name', '', ['class'=>'form-control input-md','placeholder'=>'As it would appear on your passport'])}}
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-md-6">
                         <div class="form-group">
                             Last Name <font color = "ef6464">*</font>
-                            <input type="text" name="last_name" id="last_name" class="form-control input-md" placeholder="As it would appear on your passport" required = "required">
+                            <!--input type="text" name="last_name" id="last_name" class="form-control input-md" placeholder="As it would appear on your passport" required = "required"-->
+                            {{Form::text('last_name', '', ['class'=>'form-control input-md','placeholder'=>'As it would appear on your passport','required'])}}
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,8 @@
                     <div class = "col-md-2 col-sm-6 col-md-6">
                         Date of Birth <font color="ef6464">*</font>
                         <div class = "form-group">
-                            <input type = "text" name="dob" id="dob" class="form-control input-md" placeholder="YYYY/MM/DD" required ="required">
+                            <!--input type = "text" name="dob" id="dob" class="form-control input-md" placeholder="YYYY/MM/DD" required ="required"-->
+                            {{Form::text('dob', '', ['class'=>'form-control input-md','placeholder'=>'YYYY/MM/DD','required'])}}
                         </div>
                     </div>	    			
                     <div class = "col-md-2 col-sm-6 col-md-6">
@@ -73,13 +74,15 @@
                     <div class="col-md-2 col-sm-6 col-md-6">
                         <div class="form-group">
                             Cell Phone# <font color="ef6464">*</font>
-                            <input type="text" name="cell" id="cell" class= "form-control input-md" placeholder="xxx-xxx-xxxx" required="required">
+                            <!--input type="text" name="cell" id="cell" class= "form-control input-md" placeholder="xxx-xxx-xxxx" required="required"-->
+                            {{Form::text('cell', '', ['class'=>'form-control input-md','placeholder'=>'xxx-xxx-xxxx','required'])}}
                         </div>
                     </div>  			    			
                     <div class = "col-md-4 col-sm-6 col-md-6">
                         <div class="form-group">
                             Hall & Room or Off-Campus Address <font color="ef6464">*</font>
-                            <input type ="text" name="campus_address" id="campus_address" class="form-control input-md" placeholder="Campus Address" required = "required">
+                            <!--input type ="text" name="campus_address" id="campus_address" class="form-control input-md" placeholder="Campus Address" required = "required"-->
+                            {{Form::text('campus_address', '', ['class'=>'form-control input-md','placeholder'=>'Campus Address','required'])}}
                         </div>
                     </div>		
                 </div>   		
@@ -88,13 +91,15 @@
                     <div class = "col-md-4 col-md-6 col-md-6">
                         <div class="form-group">
                             Passport Number (for international trips only)
-                            <input type="text" name="passport" id="passport" class="form-control input-md" placeholder="passport number">
+                            <!--input type="text" name="passport" id="passport" class="form-control input-md" placeholder="passport number"-->
+                            {{Form::text('passport', '', ['class'=>'form-control input-md','placeholder'=>'passport number'])}}
                         </div>
                     </div>
                     <div class="col-md-4 col-md-6 col-md-6">
                         <div class="form-group">
                             Country that issued your passport
-                            <input type="text" name="passport_country" id="passport_country" class="form-control input-md" placeholder="Country">
+                            <!--input type="text" name="passport_country" id="passport_country" class="form-control input-md" placeholder="Country"-->
+                            {{Form::text('passport_country', '', ['class'=>'form-control input-md','placeholder'=>'Country'])}}
                         </div>
                     </div>
                 </div>
@@ -103,19 +108,22 @@
                     <div class="col-md-4 col-md-6 col-md-6">
                         <div class="form-group">
                             Emergency Contact Name <font color="ef6464">*</font>
-                            <input type="text" name="emergency_name" id="emergency_name" class="form-control input-md" placeholder="contact name" required="required">
+                            <!--input type="text" name="emergency_name" id="emergency_name" class="form-control input-md" placeholder="contact name" required="required"-->
+                            {{Form::text('emergency_name', '', ['class'=>'form-control input-md','placeholder'=>'contact name','required'])}}
                         </div>
                     </div>
                     <div class="col-md-4 col-md-6 col-md-6">
                         <div class="form-group">
                             Emergency Contact Address <font color="ef6464">*</font>
-                            <input type="text" name="emergency_street" id="emergency_street" class="form-control input-md" placeholder="Street Address">
+                            <!--input type="text" name="emergency_street" id="emergency_street" class="form-control input-md" placeholder="Street Address"-->
+                            {{Form::text('emergency_street', '', ['class'=>'form-control input-md','placeholder'=>'Street Address','required'])}}
                         </div>
                     </div>
                     <div class="col-md-4 col-md-6 col-md-6">
                         <div class="form-group">
                             Emergency Contact Phone <font color="ef6464">*</font>
-                            <input type = "text" name="emergency_phone" class ="form-control input-md" placeholder ="xxx-xxx-xxxx">
+                            <!--input type = "text" name="emergency_phone" class ="form-control input-md" placeholder ="xxx-xxx-xxxx"-->
+                            {{Form::text('emergency_phone', '', ['class'=>'form-control input-md','placeholder'=>'xxx-xxx-xxxx','required'])}}
                         </div>
                     </div>
                 </div>
@@ -126,7 +134,8 @@
                     <div class = "col-md-4 col-md-8 col-md-6">
                         <div class="form-group">
                             Email Address <font color="ef6464">*</font>
-                            <input type="email" name="email" id="email" class="form-control input-md" placeholder="Email Address" >
+                            <!--input type="email" name="email" id="email" class="form-control input-md" placeholder="Email Address"-->
+                            {{Form::email('email', '', ['class'=>"form-control input-md",'placeholder'=>"Email Address",'required'])}}
                         </div>			    			
                     </div>
                 </div>
@@ -135,7 +144,8 @@
                     <div class="col-md-4 col-md-8 col-md-6">
                         <div class="form-group">
                             Password <font color="ef6464">*</font>
-                            <input type="password" name="password" id="password" class="form-control input-md" placeholder="Password">
+                            <!--input type="password" name="password" id="password" class="form-control input-md" placeholder="Password"-->
+                            {{Form::password('password', ['class'=>'form-control input-md','placeholder'=>'Password','required'])}}
                         </div>
                     </div>
                 </div>
@@ -143,7 +153,8 @@
                     <div class="col-md-4 col-md-6 col-md-6">
                         <div class="form-group">
                             Confirm Password <font color="ef6464">*</font>
-                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-md" placeholder="Confirm Password">
+                            <!--input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-md" placeholder="Confirm Password"-->
+                            {{Form::password('password_confirmation', ['class'=>'form-control input-md','placeholder'=>'Confirm Password','required'])}}
                         </div>
                     </div>
                 </div>
@@ -151,9 +162,9 @@
                 <div style="text-align:center;">
                     <div class="container">
                         <div class="row">
-                            <button type="submit" class="btn btn-info btn-cons">Register as a non-student member</button>
+                            <button type="submit" class="btn btn-info">Register as a non-student member</button>
 
-                            <button type="button" class="btn btn-info btn-cons" data-toggle="modal" data-target="#myModal">
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
                                 Register as a Student
                             </button>													
 

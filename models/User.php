@@ -32,7 +32,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'cell' => 'required',
         'campus_address' => 'required',
         'passport' => 'alpha_num',
-        'passport_country' => 'alpha_dash',
         'emergency_name' => 'required|alpha',
         'emergency_street' => 'required',
         'emergency_phone' => 'required',
@@ -44,7 +43,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'password_confirmation' => 'required|min:6|alpha_num',
     ];
     public static $messages = [
-        'dob.regex' => 'Your :attribute is not formatted right. Please use format "01/01/2001"',
+        'dob.regex' => 'Your :attribute is not formatted correctly. Please use format "YYYY/MM/DD", eg. 1993/01/05.',
     ];
 
     public static function isValid($data) {
@@ -64,4 +63,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function userInfo(){
         return $this->hasOne('UserInfo');
     }
+
+    public function userForm(){
+        return $this->hasMany('UserForm');
+    }
+
+    public function payment(){
+        return $this->hasMany('Payment');
+    }
+
+    public function hasForm($form_id){
+        foreach($this->userForm as $userForm){
+            if($userForm->form_id == $form_id){
+                return true;
+            } 
+        }
+        return false;
+    }
+
 }

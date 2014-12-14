@@ -24,14 +24,9 @@ class UserController extends BaseController {
                         return View::make('info_form', compact('trip'));
                     } else {
                         $tripForms = TripForm::with('form')->where('trip_id', '=', $userTrip->trip_id)->get();
-                        $user = Auth::user();
-                        $users = User::all();
-                        $payments = Payment::where('user_id', '=', $user->id)->where('user_trip_id', '=', $userTrip->id)->get();
-                        $totalAmount = 0;
-                        foreach($payments as $payment){
-                            $totalAmount += $payment->amount;
-                        }
-                        return View::make('dashboard', compact('users','user','userTrip', 'tripForms', 'payments', 'totalAmount'));
+                        $authUser = User::with('userForm')->find(Auth::id());
+                        $users = User::with('userTrip')->get();
+                        return View::make('dashboard', compact('users','userTrip','authUser','tripForms'));
                     }
                 } else {
                     return View::make('awaiting_approval', compact('userTrip'));
@@ -73,7 +68,7 @@ class UserController extends BaseController {
         $user->type = (Input::get('isStudent') == null ? 'non-student' : 'student');
         $user->phone_no = Input::get('cell');
         $user->address = Input::get('campus_address');
-        $user->passport_no = Input::get('passport');
+        $user->passport_no = Crypt::encrypt(Input::get('passport'));
         $user->country = Input::get('passport_country');
         $user->emergency_contact_name = Input::get('emergency_name');
         $user->emergency_contact_address = Input::get('emergency_street');
@@ -99,7 +94,7 @@ class UserController extends BaseController {
         $userInfo = new UserInfo();
         $userInfo->user_id = Auth::user()->id;
         $userInfo->major_academic_interest = Input::get('major');
-        $user->passport_no = Input::get('passport_no');
+        $user->passport_no = Crypt::encrypt(Input::get('passport_no'));
         $userInfo->hometown_state = Input::get('hometown_state');
         $userInfo->dietary_allergies_access_needs = Input::get('dietary_needs');
         $userInfo->foreign_languages = Input::get('languages');
@@ -117,8 +112,49 @@ class UserController extends BaseController {
         return Redirect::to('/');
     }
 
-    // public function editMyInfo(){
-    //     $userInfo = User::with('userInfo')->find
-    // }
+    public function displayMyInfo(){
+        $user = Auth::user();
+        $userInfo = UserInfo::find(Auth::id());
+        Return View::make('my_info', compact('user','userInfo'));
+    }
+
+    public function editMyInfo(){
+        $user = Auth::user();
+        $userInfo = UserInfo::find(Auth::id());
+
+        $user->fname = Input::get('fname');
+        $user->mname = Input::get('mname');
+        $user->lname = Input::get('lname');
+        $user->dob = Input::get('dob');
+        $user->gender = Input::get('gender');
+        $user->country = Input::get('country');
+        $user->passport_no = Crypt::encrypt(Input::get('passport_no'));
+        $user->address = Input::get('address');
+        $user->phone_no = Input::get('phone_no');
+        $user->emergency_contact_name = Input::get('emergency_contact_name');
+        $user->emergency_contact_phone = Input::get('emergency_contact_phone');
+        $user->emergency_contact_address = Input::get('emergency_contact_address');
+        $user->student_id = Input::get('student_id');
+        $user->campus_box = Input::get('campus_box');
+        $user->class_year = Input::get('class_year');
+
+        $user->save();
+
+        if($userInfo){
+            $userInfo->major_academic_interest = Input::get('major_academic_interest');
+            $userInfo->hometown_state = Input::get('hometown_state');   
+            $userInfo->smoke = Input::get('smoke');
+            $userInfo->foreign_languages = Input::get('foreign_languages');
+            $userInfo->dietary_allergies_access_needs = Input::get('dietary_allergies_access_needs');
+            $userInfo->allergy_medical_conditions = Input::get('allergy_medical_conditions');
+            $userInfo->relevant_experience_interest = Input::get('relevant_experience_interest');
+            $userInfo->bio = Input::get('bio');
+
+            $userInfo->save();
+        }   
+
+        Session::flash("userSuccess", "Your information has been updated.");
+        return Redirect::to('/myInfo');
+    }
 
 }

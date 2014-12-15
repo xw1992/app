@@ -20,17 +20,17 @@
 	</thead>
 	<tr>
 		<td>{{$form->name}}</td>
-		<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#formTripModal">
+		<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#formTripModal{{$form->id}}">
 			Trips
 		</button>
 	</td>
-	<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteFormModal">
+	<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteFormModal{{$form->id}}">
 		Delete
 	</button>
 </td>
 </tr>
 
-<div class="modal fade" id="formTripModal" tabindex="-1" role="dialog" aria-labelledby="formTripModalLabel" aria-hidden="true">
+<div class="modal fade" id="formTripModal{{$form->id}}" tabindex="-1" role="dialog" aria-labelledby="formTripModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -62,7 +62,7 @@
 </div>
 
 
-<div class="modal fade" id="deleteFormModal" tabindex="-1" role="dialog" aria-labelledby="deleteFormModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteFormModal{{$form->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteFormModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">

@@ -65,7 +65,7 @@ class UserController extends BaseController {
         $user->lname = Input::get('last_name');
         $user->dob = Input::get('dob');
         $user->gender = Input::get('gender');
-        $user->type = (Input::get('isStudent') == null ? 'non-student' : 'student');
+        $user->type = (Input::get('id_number') == null ? 'non-student' : 'student');
         $user->phone_no = Input::get('cell');
         $user->address = Input::get('campus_address');
         $user->passport_no = Crypt::encrypt(Input::get('passport'));

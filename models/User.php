@@ -24,15 +24,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      */
     protected $hidden = array('password', 'remember_token');
     public static $rules = [
-        'first_name' => 'required|alpha',
-        'middle_name' => 'alpha',
-        'last_name' => 'required|alpha',
+        'first_name' => 'required',
+        'last_name' => 'required',
         'dob' => 'required|regex:/^\d{4}\/\d{2}\/\d{2}$/',
         'gender' => 'alpha',
         'cell' => 'required',
         'campus_address' => 'required',
         'passport' => 'alpha_num',
-        'emergency_name' => 'required|alpha',
+        'emergency_name' => 'required',
         'emergency_street' => 'required',
         'emergency_phone' => 'required',
         'id_number' => 'numeric',

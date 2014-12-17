@@ -51,6 +51,10 @@ class FormController extends BaseController {
     }
 
     public function addNewForm(){
+        if (!FormFile::isValid(Input::all())) {
+            return Redirect::to('/manageForms')->withInput();
+        }
+
         $trips = Trip::get();
 
     	$file = Input::file('form');

@@ -119,6 +119,9 @@ class UserController extends BaseController {
     }
 
     public function editMyInfo(){
+        if (!User::isValid(Input::all())) {
+            return Redirect::to('/myInfo')->withInput();
+        }
         $user = Auth::user();
         $userInfo = UserInfo::find(Auth::id());
 
@@ -141,6 +144,9 @@ class UserController extends BaseController {
         $user->save();
 
         if($userInfo){
+        if (!UserInfo::isValid(Input::all())) {
+            return Redirect::to('/myInfo')->withInput();
+        }
             $userInfo->major_academic_interest = Input::get('major_academic_interest');
             $userInfo->hometown_state = Input::get('hometown_state');   
             $userInfo->smoke = Input::get('smoke');

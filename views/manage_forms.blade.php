@@ -7,6 +7,12 @@
 	{{Session::get('adminSuccess')}}
 </div>
 @endif
+@if(Session::has('formError'))
+<div class="alert alert-success" role="alert">
+	{{Session::get('formError')}}
+</div>
+@endif
+
 <h1 class="text-center">Manage Forms</h1>
 @if(!$forms->isEmpty())
 @foreach($forms as $form)

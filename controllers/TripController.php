@@ -50,6 +50,10 @@ class TripController extends BaseController {
     }
 
     public function createTrip(){
+        if (!Trip::isValid(Input::all())) {
+            return Redirect::to('/manageTrips')->withInput();
+        }
+
         $trip = new Trip();
         $trip->name = Input::get('name');
         $trip->international = Input::get('international') ? 1 : 0;

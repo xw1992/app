@@ -9,6 +9,16 @@
 	@section('content')    
 
 	<h1 class="text-center">Manage Trips<span class="pull-right"><button data-target="#newTripModal" data-toggle="modal" class="btn btn-primary">New Trip</button></span></h1>
+	@if(Session::has('adminSuccess'))
+		<div class="alert alert-success" role="alert">
+    	{{Session::get('adminSuccess')}}
+		</div>
+	@endif
+	@if(Session::has('tripError'))
+		<div class="alert alert-success" role="alert">
+    	{{Session::get('tripError')}}
+		</div>
+	@endif
 	<hr>
 	<table class="table table-hover">
 		<thead>

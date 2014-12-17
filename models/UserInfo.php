@@ -21,7 +21,7 @@ class UserInfo extends Eloquent {
         if ($validation->passes()) {
             return true;
         }
-        Session::flash('formError', $validation->messages()->all());
+        Session::flash('infoError', $validation->messages()->all());
         return false;
     }
 }

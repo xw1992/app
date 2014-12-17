@@ -13,4 +13,18 @@ class FormFile extends Eloquent{
         return $this->hasMany('TripForm','form_id');
     }
 
+    public static $rules = [
+        'form' => 'required',
+        'form_name' => 'required'
+    ];
+
+    public static function isValid($data) {
+        $validation = Validator::make($data, static::$rules);
+
+        if ($validation->passes()) {
+            return true;
+        }
+        Session::flash('formError', $validation->messages()->all());
+        return false;
+    }
 }

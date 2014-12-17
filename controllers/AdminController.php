@@ -197,6 +197,9 @@ class AdminController extends BaseController {
     */
 
     public function editStudentInfo(){
+        if (!User::isValid(Input::all())) {
+            return Redirect::to('/info/'.$user->id);
+        }
         $user = User::find(Input::get('id'));
         $userInfo = UserInfo::find(Input::get('id'));
 
@@ -219,6 +222,9 @@ class AdminController extends BaseController {
         $user->save();
 
         if($userInfo){
+            if (!UserInfo::isValid(Input::all())) {
+            return Redirect::to('/info/'.$user->id);
+        }
             $userInfo->major_academic_interest = Input::get('major_academic_interest');
             $userInfo->hometown_state = Input::get('hometown_state');   
             $userInfo->smoke = Input::get('smoke');

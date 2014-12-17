@@ -101,17 +101,18 @@
 						<h4 class="modal-title" id="tripFinanceModalLabel$trip->id}}">Edit begin and end dates for trip: {{$trip->name}}</h4>
 					</div>
 					<div class="modal-body">
+
 					{{Form::open(['url'=>'/editTripDates'])}}
 						{{Form::hidden('trip_id',$trip->id)}}
 						<div class="row">
 						<h4>Begin date: </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('begin_date', $trip->begin_date,['class'=>'form-control','required'])}}
+							{{Form::text('begin_date', $trip->begin_date,['class'=>'form-control','id'=>'datepicker','required'])}}
 						</div></div>
 						<div class="row">
 						<h4>End date: </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('end_date', $trip->end_date,['class'=>'form-control','required'])}}
+							{{Form::text('end_date', $trip->end_date,['class'=>'form-control','id'=>'datepicker','required'])}}
 						</div></div>
 						
 					</div>
@@ -202,6 +203,7 @@
 						{{Form::text('trip_name',$trip->name,['class'=>'form-control','required'])}}
 						</div></div>
 					</div>
+
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-info">Save changes</button>
@@ -255,6 +257,12 @@
 				</div>
 			</div>
 		</div>
+						<form action="form">
+
+							<h5>Trip Name: </h5>{{Form::text('name', $trip->name)}
+							<h5>Trip Start Date: </h5>{{Form::text('begin_date', 'id'=>'datepicker',$trip->begin_date')}}
+							<h5>Trip End Date: </h5>{{Form::text('end_date', 'id'=>'datepicker',$trip->end_date)}}<br><br>
+
 
 		<div class="modal fade" id="tripInternationalModal{{$trip->id}}" tabindex="-1" role="dialog" aria-labelledby="tripWaitlistModalLabel$trip->id}}" aria-hidden="true"> 
 			<div class="modal-dialog">
@@ -370,4 +378,37 @@
 			</div>
 		</div>
 
+		<center>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newTripModal">
+				Add new Trip
+			</button>
+		</center>
+
+		<div class="modal fade" id="newTripModal" tabindex="-1" role="dialog" aria-labelledby="newTripModal" aria-hidden="true"> 
+			<div class="modal-dialog">
+				<div class="modal-content"> 
+					<div class="modal-header"> 
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="newTripModalLabel">{{Manage $trip->name}}</h4>
+					</div>
+					<div class="modal-body">
+						<form action="form">
+
+							<h5>Trip Name: </h5>{{Form::text('name')}
+							<h5>Trip Start Date: </h5>{{Form::text('begin_date')}}
+							<h5>Trip End Date: </h5>{{Form::text('end_date')}}<br><br>
+
+							<h5>International?</h5>{{Form::checkbox('international')}}
+
+
+							<button type="submit" class="btn btn-info">Open Trip</button>
+							<button type="submit" class="btn btn-danger">Delete Trip</button>
+
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-info">Save Changes</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		@stop

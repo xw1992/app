@@ -20,7 +20,7 @@
 	<!-- Nav tabs -->
 	<div id="content">
 		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-			<li class="active"><a href="#info" data-toggle="tab">Info</a></li>
+			<li class="active"><a href="#info" data-toggle="tab">Trips</a></li>
 			<li><a href="#forms" data-toggle="tab">Forms</a></li>
 			<li><a href="#finances" data-toggle="tab">Finances</a></li>
 		</ul>
@@ -32,7 +32,7 @@
 						<div class="panel-heading" role="tab" id="headingOne">
 							<h4 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" href="#info{{$trip->id}}" aria-expanded="true" aria-controls="collapseOne">
-									{{$trip->name}} Information Enrolled: {{$trip->enroll_no}}/{{$trip->capacity}}
+									{{$trip->name}} Trip Enrolled: {{$trip->enroll_no}}/{{$trip->capacity}}
 								</a>
 							</h4>
 						</div>
@@ -60,9 +60,9 @@
 											<a href="" data-toggle="modal"
 											data-target="#studentLeaderModal{{$user->id}}">
 											@if( $user->userTrip->trip_leader)
-											Yes
+											yes
 											@else
-											No
+											no
 											@endif
 											</a>
 										</td>
@@ -89,7 +89,9 @@
 											<div class="modal-body">
 												{{$user->fname}} is currently {{$user->userTrip->approved?'approved':($user->userTrip->waitlisted?'waitlisted':'awaiting approval')}} for this trip.
 												<br>
+
 												<h5>If you would like to change the status of this student, please use the following options:</h5>
+												<div class="row">
 												@if(!$user->userTrip->approved and $trip->enroll_no < $trip->capacity)
 												{{ Form::open(array('url' => '/approveApplicant', 'method' => 'post')) }}
 												{{Form::hidden("id", $user->userTrip->id)}}
@@ -105,6 +107,7 @@
 										{{ Form::open(array('url' => '/removeFromTrip', 'method' => 'post')) }}
 										{{Form::hidden("id", $user->userTrip->id)}}
 										<button type="submit" class="btn btn-danger btn-sm">Remove from trip</button>
+									</div>
 										{{Form::close()}}                          
 								</div>
 								</div>
@@ -123,7 +126,7 @@
 												{{Form::hidden("id", $user->userTrip->id)}}
 												<button type="submit" class="btn btn-info btn-sm">
 													@if($user->userTrip->trip_leader)
-													un-assign {{$user->fname}} as a trip leader
+													Unassign {{$user->fname}} as a trip leader
 													@else
 													Make {{$user->fname}} a trip leader
 													@endif
@@ -203,7 +206,7 @@
 								<table class="table table-hover">
 									<th>Student ID</th>
 									<th>Name</th>
-									<th>deposit</th>
+									<th>Deposit</th>
 									<th>Leader Award</th>
 									<th>Catholic Award</th>
 									<th>Scholarship Award</th>
@@ -221,7 +224,7 @@
 										<td>{{Form::text('catholic_award'.$user->id,$user->userTrip->catholic_award,['class'=>'form-control'])}}</td>
 										<td>{{Form::text('scholarship_award'.$user->id,$user->userTrip->scholarship_award,['class'=>'form-control'])}}</td>
 										<td>{{Form::text('payment_amount'.$user->id,'',['class'=>'form-control'])}}</td>
-										<td>{{Form::text('payment_date'.$user->id,'',['class'=>'form-control','placeholder'=>'YYYY/MM/DD'])}}</td>
+										<td>{{Form::text('payment_date'.$user->id,'',['class'=>'form-control','id'=>'datepicker','placeholder'=>'YYYY/MM/DD'])}}</td>
 										<td><a href="#" data-toggle="modal"
 											data-target="#studentPaymentsModal{{$user->id}}">{{$user->userTrip->total_paid}}</a></td>
 									<div class="modal fade" id="studentPaymentsModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="studentPaymentsModalLabel" aria-hidden="true">

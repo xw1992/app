@@ -1,17 +1,12 @@
 
 @extends('template')
 
-@section('nav_items')
-
-<li class = "active">
-    <a href="/"><font size = "4" color="white">log in</font></a>
-</li>
-@stop
 
 @section('content')
 
 
 <div class="row centered-form">
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">To register, please fill out the following information</h3>
@@ -59,11 +54,11 @@
 
                 <div class = "row">		    			
                     <div class = "col-md-2 col-sm-6">
-                        Date of Birth <font color="ef6464">*</font>
-                        <div class = "form-group">
-                            <!--input type = "date" name="dob" id="dob" class="form-control input-md" placeholder="YYYY/MM/DD" required ="required"-->
-                            {{Form::text('dob', '', ['class'=>'form-control input-md','placeholder'=>'YYYY/MM/DD','required'])}}
-                        </div>
+                        <div class="form-group">
+                        Date of Birth <font color="ef6464">*</font>                                
+                                {{Form::text('dob', '', ['class'=>'form-control input-md','id'=>'datepicker', 'placeholder'=>'yyyy/mm/dd','required'])}}
+                            <!--input type="text" name="last_name" id="last_name" class="form-control input-md" placeholder="As it would appear on your passport" required = "required"-->
+                        </div>                           
                     </div>	    			
                     <div class = "col-md-2 col-sm-6">
                         <div class="form-group">
@@ -187,6 +182,7 @@
             {{Form::close()}}
         </div>
     </div>
+
 </div>
 
 @stop

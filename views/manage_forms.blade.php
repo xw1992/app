@@ -20,10 +20,12 @@
 	</thead>
 	<tr>
 		<td>{{$form->name}}</td>
-		<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#formTripModal{{$form->id}}">
-			Trips
-		</button>
-	</td>
+		@foreach($trip->tripForm as $tripForm)
+			<td><a href="" data-toggle="modal" data-target="#formTripModal{{$form->id}}">
+				{{$tripForm->form->name}}
+			</a>
+		</td>   
+		
 	<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteFormModal{{$form->id}}">
 		Delete
 	</button>

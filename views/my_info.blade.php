@@ -34,7 +34,7 @@
 	<div class="col-xs-4 col-sm-4">
 		<div class="form-group">
 		<h5>Date of Birth:</h5>
-		{{Form::text('dob',$user->dob, ["class" => "form-control"])}}
+		{{Form::text('dob',$user->dob, ["class" => "form-control", 'id'=>'datepicker'])}}
 	</div>
 </div>
 <div class="col-xs-4 col-sm-4">

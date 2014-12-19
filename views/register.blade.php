@@ -55,8 +55,8 @@
                 <div class = "row">		    			
                     <div class = "col-md-2 col-sm-6">
                         <div class="form-group">
-                        Date of Birth <font color="ef6464">*</font>                                
-                                {{Form::text('dob', '', ['class'=>'form-control input-md','id'=>'datepicker', 'placeholder'=>'yyyy/mm/dd','required'])}}
+                        Date of Birth <font color="ef6464">*</font>                      
+                            {{Form::text('dob', '', ['class'=>'form-control input-md','id'=>'datepicker', 'placeholder'=>'yyyy/mm/dd','required'])}}
                             <!--input type="text" name="last_name" id="last_name" class="form-control input-md" placeholder="As it would appear on your passport" required = "required"-->
                         </div>                           
                     </div>	    			
@@ -72,25 +72,32 @@
                             <!--input type="text" name="cell" id="cell" class= "form-control input-md" placeholder="xxx-xxx-xxxx" required="required"-->
                             {{Form::text('cell', '', ['class'=>'form-control input-md','placeholder'=>'xxx-xxx-xxxx','required'])}}
                         </div>
-                    </div>  			    			
+                    </div> 
                     <div class = "col-md-4 col-sm-6">
+                        <div class="form-group">
+                            Email Address <font color="ef6464">*</font>
+                            <!--input type="email" name="email" id="email" class="form-control input-md" placeholder="Email Address"-->
+                            {{Form::email('email', '', ['class'=>"form-control input-md",'placeholder'=>"Email Address",'required'])}}
+                        </div>
+                    </div>  			    					
+                </div>   		
+
+                <div class="row">
+                    <div class = "col-sm-4">
                         <div class="form-group">
                             Hall & Room or Off-Campus Address <font color="ef6464">*</font>
                             <!--input type ="text" name="campus_address" id="campus_address" class="form-control input-md" placeholder="Campus Address" required = "required"-->
                             {{Form::text('campus_address', '', ['class'=>'form-control input-md','placeholder'=>'Campus Address','required'])}}
                         </div>
-                    </div>		
-                </div>   		
-
-                <div class="row">
-                    <div class = "col-md-4 col-sm-6">
+                    </div>
+                    <div class = "col-sm-4">
                         <div class="form-group">
                             Passport Number (for international trips only)
                             <!--input type="text" name="passport" id="passport" class="form-control input-md" placeholder="passport number"-->
                             {{Form::text('passport', '', ['class'=>'form-control input-md','placeholder'=>'passport number'])}}
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6">
+                    <div class="col-sm-4">
                         <div class="form-group">
                             Country that issued your passport
                             <!--input type="text" name="passport_country" id="passport_country" class="form-control input-md" placeholder="Country"-->
@@ -125,12 +132,7 @@
 
 
                 <div class="row">
-                    <div class="col-md-4 col-sm-4">
-                        <div class="form-group">
-                            Email Address <font color="ef6464">*</font>
-                            <!--input type="email" name="email" id="email" class="form-control input-md" placeholder="Email Address"-->
-                            {{Form::email('email', '', ['class'=>"form-control input-md",'placeholder'=>"Email Address",'required'])}}
-                        </div>                          
+                    <div class="col-md-4 col-sm-4">                         
                         <div class="form-group">
                             Password <font color="ef6464">*</font>
                             <!--input type="password" name="password" id="password" class="form-control input-md" placeholder="Password"-->

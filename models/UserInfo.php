@@ -11,8 +11,8 @@ class UserInfo extends Eloquent {
     protected $primaryKey = 'user_id';
 
     public static $rules = [
-        'reason' => 'required',
-        'autobiography' => 'required'
+        'relevant_experience_interest' => 'required',
+        'bio' => 'required'
     ];
 
     public static function isValid($data) {

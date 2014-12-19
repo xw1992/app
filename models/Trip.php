@@ -16,12 +16,12 @@ class Trip extends Eloquent{
 
         public static $rules = [
         'name' => 'required',
-        'begin_date' => 'required|date|regex:/^\d{4}\/\d{2}\/\d{2}$/'
-        'end_date' => 'required|date|regex:/^\d{4}\/\d{2}\/\d{2}$/'
-        'term' => 'required'
-        'cost' => 'required'
-        'first_due_day' => 'required|date|regex:/^\d{4}\/\d{2}\/\d{2}$/'
-        'second_due_day' => 'required|date|regex:/^\d{4}\/\d{2}\/\d{2}$/'
+        'begin_date' => 'required|date',
+        'end_date' => 'required|date',
+        'term' => 'required',
+        'cost' => 'required',
+        'first_due_day' => 'required|date',
+        'second_due_day' => 'required|date',
         'capacity' => 'required'
     ];
 

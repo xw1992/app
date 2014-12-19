@@ -13,6 +13,7 @@ class CreateTripsTableTripUsersTable extends Migration {
     public function up() {
         //
         Schema::create('trips', function($table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
             $table->boolean('international');
@@ -26,6 +27,7 @@ class CreateTripsTableTripUsersTable extends Migration {
         });
 
         Schema::create('trip_users', function($table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('trip_id')->unsigned();

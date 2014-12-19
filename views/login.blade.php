@@ -22,19 +22,31 @@
                 {{Form::open(array('url'=>'/login','method'=>'post'))}}
                 <!--<form role="form" action="/login" method="post">-->
                 <div class="form-group">
-                    <label for="exampleInputEmail1" class="lead">Email</label>
+                    <label for="email" class="lead">Email</label>
                     {{Form::email('email','',array('class'=>'form-control', 'placeholder'=>'Enter email', 'required'=>'required'))}}
                     <!--input type="email" value="" class="form-control" name = "email" id="exampleInputEmail1" placeholder="Enter email" required="required"-->
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1" class="lead">Password <a href="#">(forgot password)</a></label>
+                    <label for="password" class="lead">Password <a href="#" data-toggle="modal" data-target="#forgotPassword">(forgot password)</a></label>
                     <input type="password" class="form-control"  name = "password" id="exampleInputPassword1" placeholder="Password" required="required">
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-lg btn-primary">Sign in</button><br/><br/>
                     <a href = "register" class="lead">new user?</a>
                 </div>
-
+                <div class="modal fade" id="forgotPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Forgot password</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Please contact Jeff Rioux at jrioux@gettysburg.edu to reset your password.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 </form>
             </div>
         </div>

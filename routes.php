@@ -35,6 +35,8 @@ Route::group(['before' => 'auth'], function() {
     Route::get('/myInfo', 'UserController@displayMyInfo');
 
     Route::post('/editMyInfo', 'UserController@editMyInfo');
+
+    Route::post('/changeMyPassword', 'UserController@changeMyPassword');
 });
 
 // 'admin' filter is applied to this group
@@ -44,6 +46,10 @@ Route::group(['before' => 'admin'], function() {
     Route::get('/adminTest', function() {
         return "You are an admin.";
     });
+
+    Route::post('/changePassword', 'AdminController@changePassword');
+
+    Route::post('remindPayments', 'AdminController@remindPayments');
 
     Route::get('/manageParticipants', 'AdminController@displayManageParticipants');
 
@@ -64,6 +70,8 @@ Route::group(['before' => 'admin'], function() {
     Route::post('/removeFromTrip', 'AdminController@removeFromTrip');
 
     Route::post('/editFinances', 'AdminController@editFinances');
+
+    Route::post('/editPayments', 'AdminController@editPayments');
 
     Route::get('/manageForms', 'FormController@displayManageForms');
 

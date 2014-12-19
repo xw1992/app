@@ -35,6 +35,27 @@ class UserController extends BaseController {
         }
     }
 
+    public function changeMyPassword(){
+        $old = Input::get('old_password');
+        $new = Input::get('new_password');
+        $confirm = Input::get('confirm_password');
+
+        if(Hash::check($old, Auth::user()->password)){
+            if($new == $confirm and strlen($new) >= 6){
+                Auth::user()->password = Hash::make($new);
+                Auth::user()->save();
+                Session::flash('userSuccess', 'Password changed successfully!');
+                return Redirect::back();
+            }else{
+                Session::flash('passwordError', 1);
+                return Redirect::back();
+            }
+        }else{
+            Session::flash('passwordError', 1);
+            return Redirect::back();
+        }
+    }
+
     public function login() {
         if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))) {
             return Redirect::to('/');
@@ -100,8 +121,8 @@ class UserController extends BaseController {
         $userInfo->foreign_languages = Input::get('languages');
         $userInfo->smoke = Input::get('smoker');
         $userInfo->allergy_medical_conditions = Input::get('medical');
-        $userInfo->relevant_experience_interest = Input::get('reason');
-        $userInfo->bio = Input::get('autobiography');
+        $userInfo->relevant_experience_interest = Input::get('relevant_experience_interest');
+        $userInfo->bio = Input::get('bio');
         $userInfo->trip_id = Input::get('trip_id');
 
         $userInfo->save();
@@ -119,27 +140,27 @@ class UserController extends BaseController {
     }
 
     public function editMyInfo(){
-        if (!User::isValid(Input::all())) {
-            return Redirect::to('/myInfo')->withInput();
+        if (!User::editValid(Input::all())) {
+            return Redirect::to('/myInfo');
         }
         $user = Auth::user();
         $userInfo = UserInfo::find(Auth::id());
 
-        $user->fname = Input::get('fname');
+        $user->fname = Input::get('first_name');
         $user->mname = Input::get('mname');
-        $user->lname = Input::get('lname');
+        $user->lname = Input::get('last_name');
         $user->dob = Input::get('dob');
         $user->gender = Input::get('gender');
         $user->country = Input::get('country');
-        $user->passport_no = Crypt::encrypt(Input::get('passport_no'));
-        $user->address = Input::get('address');
-        $user->phone_no = Input::get('phone_no');
-        $user->emergency_contact_name = Input::get('emergency_contact_name');
-        $user->emergency_contact_phone = Input::get('emergency_contact_phone');
-        $user->emergency_contact_address = Input::get('emergency_contact_address');
-        $user->student_id = Input::get('student_id');
+        $user->passport_no = Crypt::encrypt(Input::get('passport'));
+        $user->address = Input::get('campus_address');
+        $user->phone_no = Input::get('cell');
+        $user->emergency_contact_name = Input::get('emergency_name');
+        $user->emergency_contact_phone = Input::get('emergency_phone');
+        $user->emergency_contact_address = Input::get('emergency_street');
+        $user->student_id = Input::get('id_number');
         $user->campus_box = Input::get('campus_box');
-        $user->class_year = Input::get('class_year');
+        $user->class_year = Input::get('class');
 
         $user->save();
 

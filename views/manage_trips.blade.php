@@ -16,7 +16,11 @@
 	@endif
 	@if(Session::has('tripError'))
 		<div class="alert alert-success" role="alert">
-    	{{Session::get('tripError')}}
+			<ul>
+				@foreach (Session::get('tripError') as $er)
+					<li>{{$er}}</li>
+				@endforeach
+			</ul>
 		</div>
 	@endif
 	<hr>
@@ -31,7 +35,6 @@
 				<th>Trip starts</th>
 				<th>Trip ends</th>
 				<th>Enrolled/Capacity (Waitlisted)</th>
-				<th>Forms</th>
 				<th>Delete</th>
 			</tr>
 		</thead>
@@ -61,9 +64,6 @@
 				<a href="#" data-target="#tripEnrollModal{{$trip->id}}" data-toggle="modal">{{$trip->enroll_no.'/'.$trip->capacity.' ('.$trip->waitlist_no.')'}}</a>
 			</td>
 			<td>
-				<a href="#" data-target="#tripFormsModal{{$trip->id}}" data-toggle="modal">Forms</a>
-			</td>
-			<td>
 				<a href="#" class="btn btn-danger btn-sm" data-target="#tripDeleteModal{{$trip->id}}" data-toggle="modal">Delete</a>
 			</td>
 		
@@ -81,17 +81,31 @@
 						<div class="row">
 						<h4>Cost of the trip (US dollars): </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('cost', $trip->cost,['class'=>'form-control','required'])}}
+							<input type="number" name="cost" value="{{$trip->cost}}" class="form-control" required>
 						</div></div>
 						<div class="row">
 						<h4>Due Date of 1st Payment: </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('first', $trip->first_due_day,['class'=>'form-control','required'])}}
+							<script>
+							  $(document).ready(function() {
+							    $("#first_due_day{{$trip->id}}").datepicker({
+							        dateFormat:'yy/mm/dd'
+							    });
+							  });
+							 </script>
+							{{Form::text('first', $trip->first_due_day,['class'=>'form-control','required','id'=>'first_due_day'.$trip->id])}}
 						</div></div>
 						<div class="row">
 						<h4>Due Date of 2nd Payment: </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('second', $trip->second_due_day,['class'=>'form-control','required'])}}
+							<script>
+							  $(document).ready(function() {
+							    $("#second_due_day{{$trip->id}}").datepicker({
+							        dateFormat:'yy/mm/dd'
+							    });
+							  });
+							  </script>
+							{{Form::text('second', $trip->second_due_day,['class'=>'form-control','required','id'=>'second_due_day'.$trip->id])}}
 						</div></div>
 						
 					</div>
@@ -117,12 +131,26 @@
 						<div class="row">
 						<h4>Begin date: </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('begin_date', $trip->begin_date,['class'=>'form-control','id'=>'datepicker','required'])}}
+							<script>
+							  $(document).ready(function() {
+							    $("#begin_date{{$trip->id}}").datepicker({
+							        dateFormat:'yy/mm/dd'
+							    });
+							  });
+							  </script>
+							{{Form::text('begin_date', $trip->begin_date,['class'=>'form-control','id'=>'begin_date'.$trip->id,'required'])}}
 						</div></div>
 						<div class="row">
 						<h4>End date: </h4>
 						<div class="col-xs-8 col-xs-offset-2">
-							{{Form::text('end_date', $trip->end_date,['class'=>'form-control','id'=>'datepicker','required'])}}
+							<script>
+							  $(document).ready(function() {
+							    $("#end_date{{$trip->id}}").datepicker({
+							        dateFormat:'yy/mm/dd'
+							    });
+							  });
+							  </script>
+							{{Form::text('end_date', $trip->end_date,['class'=>'form-control','id'=>'end_date'.$trip->id,'required'])}}
 						</div></div>
 						
 					</div>
@@ -267,12 +295,6 @@
 				</div>
 			</div>
 		</div>
-						<form action="form">
-
-							<h5>Trip Name: </h5>{{Form::text('name', $trip->name)}
-							<h5>Trip Start Date: </h5>{{Form::text('begin_date', 'id'=>'datepicker',$trip->begin_date')}}
-							<h5>Trip End Date: </h5>{{Form::text('end_date', 'id'=>'datepicker',$trip->end_date)}}<br><br>
-
 
 		<div class="modal fade" id="tripInternationalModal{{$trip->id}}" tabindex="-1" role="dialog" aria-labelledby="tripWaitlistModalLabel$trip->id}}" aria-hidden="true"> 
 			<div class="modal-dialog">
@@ -288,28 +310,6 @@
 						<button type"submit" class="btn btn-primary">{{$trip->international?'Change the trip type to "Domestic"':'Change trip type to "International"'}}</button>
 						{{Form::close()}}
 					</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="modal fade" id="tripFormsModal{{$trip->id}}" tabindex="-1" role="dialog" aria-labelledby="tripFormsModalLabel$trip->id}}" aria-hidden="true"> 
-			<div class="modal-dialog">
-				<div class="modal-content text-center"> 
-					<div class="modal-header"> 
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title" id="tripFormsModalLabel$trip->id}}">Forms associated with {{$trip->name}}</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							@foreach($trip->tripForm as $tripForm)
-								<p class="lead">{{$tripForm->form->name}}</p>
-							@endforeach
-							
-						</div>
-					</div>
-					<div class="modal-footer">
-						<p class="text-left">If you wish to edit form-trip association, please click on "forms" on the navigation bar.</p>
 					</div>
 				</div>
 			</div>
@@ -359,23 +359,52 @@
 						<h4>Trip name: </h4>
 						{{Form::text('name','',['class'=>'form-control','required'])}}
 						<h4>Start Date:</h4>
-						{{Form::text('begin_date','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
+						<script>
+						  $(document).ready(function() {
+						    $("#begin_date").datepicker({
+						        dateFormat:'yy/mm/dd'
+						    });
+						  });
+						  </script>
+						{{Form::text('begin_date','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD','id'=>'begin_date'])}}
 						<h4>End Date:</h4>
-						{{Form::text('end_date','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
+						<script>
+						  $(document).ready(function() {
+						    $("#end_date").datepicker({
+						        dateFormat:'yy/mm/dd'
+						    });
+						  });
+						  </script>
+						{{Form::text('end_date','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD','id'=>'end_date'])}}
 						<h4>Term:</h4>
+
 						{{Form::text('term','',['class'=>'form-control','required','placeholder'=>'eg. Spring 2015'])}}						
 						<h4>International</h4>
 						{{Form::checkbox('international')}}
 					</div>
 					<div class="col-xs-6">
 						<h4>Cost (US dollars):</h4>
-						{{Form::text('cost','',['class'=>'form-control','required'])}}
+						<input name="cost" type="number" class="form-control" required>
 						<h4>First Payment Date</h4>
-						{{Form::text('first_due_day','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
+						<script>
+						  $(document).ready(function() {
+						    $("#first_due_day").datepicker({
+						        dateFormat:'yy/mm/dd'
+						    });
+						  });
+						  </script>
+						{{Form::text('first_due_day','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD','id'=>'first_due_day'])}}
 						<h4>Second Payment Date</h4>
-						{{Form::text('second_due_day','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD'])}}
+						<script>
+						  $(document).ready(function() {
+						    $("#second_due_day").datepicker({
+						        dateFormat:'yy/mm/dd'
+						    });
+						  });
+						  </script>
+						{{Form::text('second_due_day','',['class'=>'form-control','required','placeholder'=>'YYYY/MM/DD','id'=>'second_due_day'])}}
 						<h4>Capacity</h4>
-						{{Form::text('capacity','',['class'=>'form-control','required'])}}
+						<input name="capacity" type="number" step=1 class="form-control" required>
 					</div>
 					</div>
 					</div>
@@ -393,32 +422,4 @@
 				Add new Trip
 			</button>
 		</center>
-
-		<div class="modal fade" id="newTripModal" tabindex="-1" role="dialog" aria-labelledby="newTripModal" aria-hidden="true"> 
-			<div class="modal-dialog">
-				<div class="modal-content"> 
-					<div class="modal-header"> 
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title" id="newTripModalLabel">{{Manage $trip->name}}</h4>
-					</div>
-					<div class="modal-body">
-						<form action="form">
-
-							<h5>Trip Name: </h5>{{Form::text('name')}
-							<h5>Trip Start Date: </h5>{{Form::text('begin_date')}}
-							<h5>Trip End Date: </h5>{{Form::text('end_date')}}<br><br>
-
-							<h5>International?</h5>{{Form::checkbox('international')}}
-
-
-							<button type="submit" class="btn btn-info">Open Trip</button>
-							<button type="submit" class="btn btn-danger">Delete Trip</button>
-
-						</div>
-						<div class="modal-footer">
-							<button type="submit" class="btn btn-info">Save Changes</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		@stop
+@stop

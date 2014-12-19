@@ -20,6 +20,21 @@ class AdminController extends BaseController {
         return View::make('manage_participants', compact('users', 'trips'));
     }
 
+    public function changePassword(){
+        $user = User::find(Input::get('user_id'));
+        $new = Input::get('new_password');
+        $confirm = Input::get('confirm_password');
+        if($new == $confirm and $new >=6){
+            $user->Password = Hash::make($new);
+            $user->save();
+            Session::flash('adminSuccess', 'Password changed successfully!');
+            return Redirect::back();
+        }else{
+            Session::flash('passwordError', 1);
+            return Redirect::back();
+        }
+    }
+
     public function waitlist() {
         $userTrip = UserTrip::with('user', 'trip')->find(Input::get('id'));
         $userTrip->waitlisted = 1;
@@ -40,8 +55,44 @@ class AdminController extends BaseController {
         $userTrip->approved = 1;
         $userTrip->waitlisted = 0;
         $userTrip->save();
+
+        $data = [
+            'name' => $userTrip->user->fname,
+            'trip_name' => $userTrip->trip->name
+        ];
+        Mail::send('emails.approval', $data, function($message) use ($userTrip){
+            $message->to($userTrip->user->email)->subject('Your Immersion Trip application has been approved!');
+        });
+
         Session::flash("adminSuccess", "{$userTrip->user->fname} successfully approved for {$userTrip->trip->name}.");
         return Redirect::to('/manageParticipants');
+    }
+
+    public function remindPayments(){
+        $c_message = Input::get('custom_message');
+
+        $trips = Trip::all();
+        foreach ($trips as $trip) {
+            $userTrips = UserTrip::with('user')->where('trip_id','=',$trip->id)->get();
+            foreach ($userTrips as $userTrip) {
+                $data = [
+                    'c_message' => $c_message,
+                    'trip' => $trip,
+                    'userTrip' => $userTrip,
+                    'due_amount' => ($trip->cost - 
+                    $userTrip->deposit - $userTrip->scholarship_award - $userTrip->leader_award-
+                    $userTrip->catholic_award)/2.0
+                ];
+
+                Mail::send('emails.paymentReminder', $data, function($message) use ($userTrip){
+                    $message->to($userTrip->user->email)->subject('Your payments for the Immersion Trip are due soon!');
+                });
+
+            }
+        }
+        Session::flash('adminSuccess', 'The reminder emails have been sent!');
+        return Redirect::back();
+        
     }
 
     public function assignTripLeader() {
@@ -112,9 +163,9 @@ class AdminController extends BaseController {
             $date = Input::get('payment_date'.$userTrip->user_id);
             if($date){
                 $validation = Validator::make(['date'=>$date], 
-                    ['date' => 'regex:/^\d{4}\/\d{2}\/\d{2}$/']);
+                    ['date' => 'date']);
                 if(!$validation->passes()){
-                    Session::flash('adminFailure', 'Failed to save: please check the date format(YYYY/MM/DD) is correct.');
+                    Session::flash('adminFailure', 'Failed to save: please check if the date format(YYYY/MM/DD) is correct.');
                     return Redirect::to('/manageParticipants');
                 }
             }
@@ -138,8 +189,25 @@ class AdminController extends BaseController {
             $userTrip->save();
 
         }
+        Session::flash('indicator', 2);
         Session::flash('adminSuccess', 'You have successfully saved the finance information.');
         return Redirect::to('/manageParticipants');
+    }
+
+    public function editPayments(){
+        $payments = Payment::where('user_id','=',Input::get('user_id'))->get();
+        $user_trip = UserTrip::where('user_id','=',Input::get('user_id'))->first();
+        $amount_paid = 0;
+        foreach ($payments as $payment) {
+            $payment->amount = Input::get('amount'.$payment->id);
+            $payment->date = Input::get('date'.$payment->id);
+            $payment->save();
+            $amount_paid += $payment->amount;
+        }
+        $user_trip->total_paid = $amount_paid;
+        $user_trip->save();
+        Session::flash('indicator', 2);
+        return Redirect::back();
     }
 
     /*
@@ -197,34 +265,37 @@ class AdminController extends BaseController {
     */
 
     public function editStudentInfo(){
-        if (!User::isValid(Input::all())) {
+        $user = User::find(Input::get('id'));
+        if (!User::editValid(Input::all())) {
+            Session::flash('admin_error', 1);
             return Redirect::to('/info/'.$user->id);
         }
-        $user = User::find(Input::get('id'));
+        
         $userInfo = UserInfo::find(Input::get('id'));
 
-        $user->fname = Input::get('fname');
+        $user->fname = Input::get('first_name');
         $user->mname = Input::get('mname');
-        $user->lname = Input::get('lname');
+        $user->lname = Input::get('last_name');
         $user->dob = Input::get('dob');
         $user->gender = Input::get('gender');
         $user->country = Input::get('country');
-        $user->passport_no = Crypt::encrypt(Input::get('passport_no'));
-        $user->address = Input::get('address');
-        $user->phone_no = Input::get('phone_no');
-        $user->emergency_contact_name = Input::get('emergency_contact_name');
-        $user->emergency_contact_phone = Input::get('emergency_contact_phone');
-        $user->emergency_contact_address = Input::get('emergency_contact_address');
-        $user->student_id = Input::get('student_id');
+        $user->passport_no = Crypt::encrypt(Input::get('passport'));
+        $user->address = Input::get('campus_address');
+        $user->phone_no = Input::get('cell');
+        $user->emergency_contact_name = Input::get('emergency_name');
+        $user->emergency_contact_phone = Input::get('emergency_phone');
+        $user->emergency_contact_address = Input::get('emergency_street');
+        $user->student_id = Input::get('id_number');
         $user->campus_box = Input::get('campus_box');
-        $user->class_year = Input::get('class_year');
+        $user->class_year = Input::get('class');
 
         $user->save();
 
         if($userInfo){
             if (!UserInfo::isValid(Input::all())) {
-            return Redirect::to('/info/'.$user->id);
-        }
+                Session::flash('admin_error', 1);
+                return Redirect::to('/info/'.$user->id);
+            }
             $userInfo->major_academic_interest = Input::get('major_academic_interest');
             $userInfo->hometown_state = Input::get('hometown_state');   
             $userInfo->smoke = Input::get('smoke');

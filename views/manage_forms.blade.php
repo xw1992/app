@@ -9,7 +9,11 @@
 @endif
 @if(Session::has('formError'))
 <div class="alert alert-success" role="alert">
-	{{Session::get('formError')}}
+	<ul>
+	@foreach (Session::get('formError') as $er)
+		<li>{{$er}}</li>
+	@endforeach
+	</ul>
 </div>
 @endif
 
@@ -20,23 +24,32 @@
 	<thead>
 		<tr>
 			<th>Form Name</th>
-			<th>Trips</th>
-			<th>Delete</th>
+			@foreach($trips as $trip)
+			<th>{{$trip->name}}</th>
+			@endforeach
+			<th>Save changes</th>
+			<th>Delete form</th>
 		</tr>
 	</thead>
 	<tr>
 		<td>{{$form->name}}</td>
-		@foreach($trip->tripForm as $tripForm)
-			<td><a href="" data-toggle="modal" data-target="#formTripModal{{$form->id}}">
-				{{$tripForm->form->name}}
-			</a>
-		</td>   
-		
-	<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteFormModal{{$form->id}}">
-		Delete
-	</button>
-</td>
-</tr>
+		{{Form::open(array("url" => "/editForm"))}}
+		{{Form::hidden("id", $form->id)}}
+		@foreach($trips as $trip)
+		<td>
+		{{Form::checkbox('trip'.$trip->id, $trip->id, in_array($trip->id, $tripForms[$form->id]))}}
+		</td>
+		@endforeach
+		<td><button type="submit" class="btn btn-info btn-sm">
+			Save
+		</button>
+		</td>
+		{{Form::close()}}
+		<td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#deleteFormModal{{$form->id}}">
+			Delete
+		</button>
+		</td>
+	</tr>
 
 <div class="modal fade" id="formTripModal{{$form->id}}" tabindex="-1" role="dialog" aria-labelledby="formTripModalLabel" aria-hidden="true">
 	<div class="modal-dialog">

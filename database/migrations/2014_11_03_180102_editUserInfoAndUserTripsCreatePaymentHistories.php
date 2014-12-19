@@ -27,6 +27,7 @@ class EditUserInfoAndUserTripsCreatePaymentHistories extends Migration {
         });
 
         Schema::create('payment_histories', function($table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

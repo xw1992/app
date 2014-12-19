@@ -14,6 +14,7 @@ class CreateFormsAndTripFormsTables extends Migration {
 	{
 		//
 		Schema::create('forms', function($table){
+			$table->engine = 'InnoDB';
 			$table->increments('id');
 			$table->string('name');
 			$table->string('location');
@@ -21,6 +22,7 @@ class CreateFormsAndTripFormsTables extends Migration {
 		});
 		
 		Schema::create('trip_forms', function($table){
+			$table->engine = 'InnoDB';
 			$table->increments('id');
 			$table->integer('trip_id')->unsigned();
 			$table->integer('form_id')->unsigned();

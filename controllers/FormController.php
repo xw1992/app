@@ -38,6 +38,7 @@ class FormController extends BaseController {
             }
         }
         Session::flash('adminSuccess', 'You have successfully saved the participant form information.');
+        Session::flash('indicator', 1);
         return Redirect::back();
     }
 
@@ -95,11 +96,12 @@ class FormController extends BaseController {
         $tripArray = [];
 
         foreach($form->tripForm as $tForm){
-            $tripCheck = Input::get($tForm->trip_id);
+            $tripCheck = Input::get('trip'.$tForm->trip_id);
             if(!$tripCheck){
                 $tForm->delete();
-            }
-            $tripArray[] = $tForm->trip_id;
+            }else{
+                $tripArray[] = $tForm->trip_id;
+            } 
         }
 
         $trips = Trip::all();

@@ -20,12 +20,12 @@
 	<!-- Nav tabs -->
 	<div id="content">
 		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-			<li class="active"><a href="#info" data-toggle="tab">Trips</a></li>
-			<li><a href="#forms" data-toggle="tab">Forms</a></li>
-			<li><a href="#finances" data-toggle="tab">Finances</a></li>
+			<li role="presentation" @if(!Session::has('indicator')) class="active" @endif><a href="#info" data-toggle="tab">Trips</a></li>
+			<li role="presentation" @if(Session::has('indicator') and Session::get('indicator') == 1) class="active" @endif><a href="#forms" data-toggle="tab">Forms</a></li>
+			<li role="presentation" @if(Session::has('indicator') and Session::get('indicator') == 2) class="active" @endif><a href="#finances" data-toggle="tab">Finances</a></li>
 		</ul>
 		<div id="my-tab-content" class="tab-content">
-			<div class="tab-pane active" id="info">
+			<div class="tab-pane @if(!Session::has('indicator')) active @endif" id="info">
 				@foreach($trips as $trip)
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					<div class="panel panel-default">
@@ -90,23 +90,29 @@
 												{{$user->fname}} is currently {{$user->userTrip->approved?'approved':($user->userTrip->waitlisted?'waitlisted':'awaiting approval')}} for this trip.
 												<br>
 
-												<h5>If you would like to change the status of this student, please use the following options:</h5>
+												<h5>To change the status of this student, please use the following options:</h5>
 												<div class="row">
 												@if(!$user->userTrip->approved and $trip->enroll_no < $trip->capacity)
 												{{ Form::open(array('url' => '/approveApplicant', 'method' => 'post')) }}
 												{{Form::hidden("id", $user->userTrip->id)}}
+												<div class="col-xs-4">
 												<button type="submit" class="btn btn-success btn-sm">Approve</button>
+												</div>
 												{{Form::close()}}
 											@endif
 											@if(!$user->userTrip->approved and !$user->userTrip->waitlisted)
 											{{ Form::open(array('url' => '/waitlistApplicant', 'method' => 'post')) }}
 											{{Form::hidden("id", $user->userTrip->id)}}
+											<div class="col-xs-4">
 											<button type="submit" class="btn btn-warning btn-sm">Waitlist</button>
+											</div>
 											{{Form::close()}}
 										@endif
 										{{ Form::open(array('url' => '/removeFromTrip', 'method' => 'post')) }}
 										{{Form::hidden("id", $user->userTrip->id)}}
+										<div class="col-xs-4">
 										<button type="submit" class="btn btn-danger btn-sm">Remove from trip</button>
+									</div>
 									</div>
 										{{Form::close()}}                          
 								</div>
@@ -145,7 +151,7 @@
 					</div>
 					@endforeach
 				</div>
-				<div class="tab-pane" id="forms">
+				<div class="tab-pane @if(Session::has('indicator') and Session::get('indicator') == 1) active @endif" id="forms">
 					@foreach($trips as $trip)
 					<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 						<div class="panel panel-default">
@@ -189,7 +195,7 @@
 				</div>
 				@endforeach
 			</div>
-			<div class="tab-pane" id="finances">
+			<div class="tab-pane @if(Session::has('indicator') and Session::get('indicator') == 2) active @endif" id="finances">
 				@foreach($trips as $trip)
 				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 					<div class="panel panel-default">
@@ -206,25 +212,32 @@
 								<table class="table table-hover">
 									<th>Student ID</th>
 									<th>Name</th>
-									<th>Deposit</th>
-									<th>Leader Award</th>
-									<th>Catholic Award</th>
-									<th>Scholarship Award</th>
-									<th>New Payment Amount (US dollars)</th>
+									<th>Deposit $</th>
+									<th>Leader Award $</th>
+									<th>Catholic Award $</th>
+									<th>Scholarship Award $</th>
+									<th>New Payment Amount $</th>
 									<th>New Payment Date</th>
-									<th>Amount paid</th>
-									<th>Amount Due</th>
+									<th>Amount paid $</th>
+									<th>Amount Due $</th>
 									@foreach($users as $user)
 									@if($user->userTrip and $trip->id == $user->userTrip->trip_id)
 									<tr>
 										<td>{{$user->student_id?:'N/A'}}</td>
 										<td>{{$user->fname.' '.$user->lname}}</td>
-										<td>{{Form::text('deposit'.$user->id,$user->userTrip->deposit,['class'=>'form-control'])}}</td>
-										<td>{{Form::text('leader_award'.$user->id,$user->userTrip->leader_award, ['class'=>'form-control'])}}</td>
-										<td>{{Form::text('catholic_award'.$user->id,$user->userTrip->catholic_award,['class'=>'form-control'])}}</td>
-										<td>{{Form::text('scholarship_award'.$user->id,$user->userTrip->scholarship_award,['class'=>'form-control'])}}</td>
-										<td>{{Form::text('payment_amount'.$user->id,'',['class'=>'form-control'])}}</td>
-										<td>{{Form::text('payment_date'.$user->id,'',['class'=>'form-control','id'=>'datepicker','placeholder'=>'YYYY/MM/DD'])}}</td>
+										<td><input type="number" name="deposit{{$user->id}}" class="form-control" value="{{$user->userTrip->deposit}}"></td>
+										<td><input type="number" name="leader_award{{$user->id}}" class="form-control" value="{{$user->userTrip->leader_award}}"></td>
+										<td><input type="number" name="catholic_award{{$user->id}}" class="form-control" value="{{$user->userTrip->catholic_award}}"></td>
+										<td><input type="number" name="scholarship_award{{$user->id}}" class="form-control" value="{{$user->userTrip->scholarship_award}}"></td>
+										<td><input type="number" name="payment_amount{{$user->id}}" class="form-control"></td>
+										<script>
+										  $(document).ready(function() {
+										    $("#datepicker{{$user->id}}").datepicker({
+										        dateFormat:'yy/mm/dd'
+										    });
+										  });
+										</script>
+										<td>{{Form::text('payment_date'.$user->id,'',['class'=>'form-control','id'=>'datepicker'.$user->id,'placeholder'=>'YYYY/MM/DD'])}}</td>
 										<td><a href="#" data-toggle="modal"
 											data-target="#studentPaymentsModal{{$user->id}}">{{$user->userTrip->total_paid}}</a></td>
 									<div class="modal fade" id="studentPaymentsModal{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="studentPaymentsModalLabel" aria-hidden="true">
@@ -235,11 +248,33 @@
 												<h4 class="modal-title" id="studentLeaderModalLabel">Payment history</h4>
 											</div>
 											<div class="modal-body">
-												<ul>
-													@foreach ($user->payment as $payment)
-														<li>Amount: ${{$payment->amount}}, date: {{$payment->date}}</li>
-													@endforeach
-												</ul>
+												{{Form::open(['url'=>'editPayments'])}}
+												{{Form::hidden('user_id', $user->id)}}
+												@foreach ($user->payment as $payment)
+												<div class="row">
+													<div class="col-sm-6">
+														<div class="col-xs-3">
+															Amount:
+														</div>
+														<div class="col-xs-9">
+															<input type="number" name="amount{{$payment->id}}" value="{{$payment->amount}}" class="form-control">
+														</div>
+													</div>
+													<div class="col-sm-6">
+														<div class="col-xs-3">
+															Date:
+														</div>
+														<div class="col-xs-9">
+															<input type="date" name="date{{$payment->id}}" value="{{$payment->date}}" class="form-control">
+														</div>
+													</div>
+												</div>
+												<hr>
+												@endforeach
+												<div class="text-center">
+													<button type="submit" class="btn btn-info">Save changes</button>
+												</div>
+												{{Form::close()}}
 											</form>
 										</div>
 									</div>

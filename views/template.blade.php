@@ -9,11 +9,13 @@
     <link rel="icon" href="../../favicon.ico">
    
 
-    <title>Immersion Project Management System</title>
+    <title>Immersion Projects Management System</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/cerulean/bootstrap.min.css">
     <!-- https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css -->
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
@@ -32,7 +34,7 @@
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/">Immersion Project Management System</a>
+                <a class="navbar-brand" href="/">Immersion Projects Management System</a>
             </div>
             <ul class = "nav navbar-nav pull-right">
                 @if(Auth::check())
@@ -58,13 +60,8 @@
     </div>
 
     <div class="container">
-
-
         @yield('content')
     </div>
-
-   <script>
-  
 
     <hr>
     <div class="footer">
@@ -72,8 +69,7 @@
             <p class="text-muted">IPMS</p>
         </div>
     </div>
-<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     
 
 </body>

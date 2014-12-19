@@ -7,16 +7,19 @@
         <meta name="author" content="Anna Kane" >
         <link rel="icon" href="../../favicon.ico">
 
-        <title>Immersion Project Management System</title>
+        <title>Immersion Projects Management System</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/cerulean/bootstrap.min.css">
         <!-- https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css -->
 
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
 
-  <script>
+    <script type="text/javascript" src="assets/twitterbootstrap/js/bootstrap-tab.js"></script>
+    <script>
   $(document).ready(function() {
     $("#datepicker").datepicker({
         dateFormat:'yy/mm/dd'
@@ -36,7 +39,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Immersion Project Management System</a>
+            <a class="navbar-brand" href="/">Immersion Projects Management System</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -47,7 +50,7 @@
             </ul>
             <ul class = "nav navbar-nav pull-right">          
                     <li>
-                        <a>{{Auth::user()->fname.' '.Auth::user()->lname}}</a>
+                        <a href="/myInfo">{{Auth::user()->fname.' '.Auth::user()->lname}}</a>
                     </li>
                      <li>
                         <a href="/logout">Logout</a>
@@ -103,9 +106,4 @@
         </div>
 
     </body>
-    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/twitterbootstrap/js/bootstrap-tab.js"></script>
-
-
 </html>

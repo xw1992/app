@@ -63,7 +63,7 @@
 
 <!--	<div class="modal-footer">-->
 <!--<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>-->
-<center><button type="submit" class="btn btn-info">Submit</button></center>
+<center><button type="submit" class="btn btn-lg btn-info">Submit</button></center>
 <!--</div>-->
 </form>
 </div>
